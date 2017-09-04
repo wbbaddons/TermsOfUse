@@ -28,7 +28,10 @@
 		<instruction type="acpTemplate" />
 
 		<instruction type="objectType" />
+
 		<instruction type="page" />
 		<instruction type="menuItem" />
+
+		<instruction type="language" />
 	</instructions>
 </package>
