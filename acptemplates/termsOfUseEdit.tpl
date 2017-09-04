@@ -5,26 +5,30 @@
 		<h1 class="contentTitle">{lang}wcf.acp.termsOfUse.edit{/lang}</h1>
 	</div>
 	
-	{hascontent}
 	<nav class="contentHeaderNavigation">
 		<ul>
-			{content}
+			<li><a href="{link controller='TermsOfUseRevisionList' application='wcf'}{/link}" class="button"><span class="icon icon16 fa-list"></span> <span>{lang}wcf.acp.termsOfUse.revision.list{/lang}</span></a></li>
 			{event name='contentHeaderNavigation'}
-			{/content}
 		</ul>
 	</nav>
-	{/hascontent}
 </header>
 
 {include file='formError'}
 
 {if $success|isset}
-	<p class="success">{lang}wcf.global.success.{$action}{/lang}</p>
+	<p class="success">{lang}wcf.global.success.edit{/lang}</p>
 {/if}
 
 <form method="post" action="{link application='wcf' controller='TermsOfUseEdit'}{/link}">
-	<div class="section">
-	</div>
+	{foreach from=$availableLanguages item='language'}
+		<div class="section">
+			<h2 class="sectionTitle">{$language}</h2>
+			<textarea name="content[{$language->languageID}]" id="content{$language->languageID}" class="wysiwygTextarea" data-disable-attachments="true" data-autosave="be.bastelstu.termsOfUse-{$language->languageID}">
+			</textarea>
+
+			{include file='wysiwyg' wysiwygSelector='content'|concat:$language->languageID}
+		</div>
+	{/foreach}
 
 	<div class="formSubmit">
 		<input type="submit" value="{lang}wcf.global.button.submit{/lang}" accesskey="s">

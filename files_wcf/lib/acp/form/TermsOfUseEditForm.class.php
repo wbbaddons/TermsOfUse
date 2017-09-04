@@ -18,6 +18,7 @@
 
 namespace wcf\acp\form;
 
+use \wcf\system\language\LanguageFactory;
 use \wcf\system\WCF;
 
 /**
@@ -38,6 +39,21 @@ class TermsOfUseEditForm extends \wcf\form\AbstractForm {
 	 * @inheritDoc
 	 */
 	public $neededPermissions = [ ]; // TODO
+
+	/**
+	 * list of available languages
+	 * @var	Language[]
+	 */
+	public $availableLanguages = [];
+
+	/**
+	 * @inheritDoc
+	 */
+	public function readData() {
+		$this->availableLanguages = LanguageFactory::getInstance()->getLanguages();
+
+		parent::readData();
+	}
 
 	/**
 	 * @inheritDoc
@@ -79,6 +95,8 @@ class TermsOfUseEditForm extends \wcf\form\AbstractForm {
 	 */
 	public function assignVariables() {
 		parent::assignVariables();
+
+		WCF::getTPL()->assign([ 'availableLanguages' => $this->availableLanguages ]);
 	}
 }
 
