@@ -25,5 +25,7 @@
 		<instruction type="file" application="wcf">files_wcf.tar</instruction>
 		<instruction type="template" />
 		<instruction type="acpTemplate" />
+
+		<instruction type="page" />
 	</instructions>
 </package>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com http://www.woltlab.com/XSD/maelstrom/page.xsd">
+	<import>
+		<page identifier="be.bastelstu.termsOfUse.TermsOfUse">
+			<pageType>system</pageType>
+			<controller>wcf\page\TermsOfUsePage</controller>
+			<name language="de">Nutzungsbestimmungen</name>
+			<name language="en">Terms Of Use</name>
+
+			<content language="en">
+				<title>Terms Of use</title>
+			</content>
+			<content language="de">
+				<title>Nutzungsbestimmungen</title>
+			</content>
+		</page>
+	</import>
+</data>
