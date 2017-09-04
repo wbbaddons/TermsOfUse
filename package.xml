@@ -31,6 +31,7 @@
 
 		<instruction type="page" />
 		<instruction type="menuItem" />
+		<instruction type="acpMenu" />
 
 		<instruction type="language" />
 	</instructions>
