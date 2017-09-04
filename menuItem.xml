@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com http://www.woltlab.com/XSD/vortex/menuItem.xsd">
+	<import>
+		<item identifier="be.bastelstu.termsOfUse.TermsOfUse">
+			<menu>com.woltlab.wcf.FooterMenu</menu>
+			<title language="de">Nutzungsbestimmungen</title>
+			<title language="en">Terms Of Use</title>
+			<page>be.bastelstu.termsOfUse.TermsOfUse</page>
+		</item>
+	</import>
+</data>

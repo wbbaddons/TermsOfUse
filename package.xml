@@ -27,5 +27,6 @@
 		<instruction type="acpTemplate" />
 
 		<instruction type="page" />
+		<instruction type="menuItem" />
 	</instructions>
 </package>
