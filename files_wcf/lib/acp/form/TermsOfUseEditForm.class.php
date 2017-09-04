@@ -18,6 +18,7 @@
 
 namespace wcf\acp\form;
 
+use \wcf\system\html\input\HtmlInputProcessor;
 use \wcf\system\language\LanguageFactory;
 use \wcf\system\WCF;
 
@@ -42,9 +43,20 @@ class TermsOfUseEditForm extends \wcf\form\AbstractForm {
 
 	/**
 	 * list of available languages
-	 * @var	Language[]
+	 * @var \wcf\data\language\Language[]
 	 */
-	public $availableLanguages = [];
+	public $availableLanguages = [ ];
+
+	/**
+	 * array of texts for the different languages
+	 * @var string[]
+	 */
+	public $content = [ ];
+
+	/**
+	 * @var \wcf\system\html\input\HtmlInputProcessor[]
+	 */
+	public $htmlInputProcessors = [ ];
 
 	/**
 	 * @inheritDoc
@@ -69,6 +81,12 @@ class TermsOfUseEditForm extends \wcf\form\AbstractForm {
 	public function readFormParameters() {
 		parent::readFormParameters();
 
+		if (isset($_POST['content']) && is_array($_POST['content'])) $this->content = \wcf\util\ArrayUtil::trim($_POST['content']);
+
+		foreach (LanguageFactory::getInstance()->getLanguages() as $language) {
+			$this->htmlInputProcessors[$language->languageID] = new HtmlInputProcessor();
+			$this->htmlInputProcessors[$language->languageID]->process((!empty($this->content[$language->languageID]) ? $this->content[$language->languageID] : ''), 'be.bastelstu.termsOfUse');
+		}
 	}
 
 	/**

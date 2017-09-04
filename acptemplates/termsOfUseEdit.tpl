@@ -23,8 +23,14 @@
 	{foreach from=$availableLanguages item='language'}
 		<div class="section">
 			<h2 class="sectionTitle">{$language}</h2>
-			<textarea name="content[{$language->languageID}]" id="content{$language->languageID}" class="wysiwygTextarea" data-disable-attachments="true" data-autosave="be.bastelstu.termsOfUse-{$language->languageID}">
-			</textarea>
+			
+			<dl class="wide">
+				<dt><label for="content{$language->languageID}">TODO</label></dt>
+				<dd>
+					<textarea name="content[{$language->languageID}]" id="content{$language->languageID}" class="wysiwygTextarea" data-disable-attachments="true" data-autosave="be.bastelstu.termsOfUse-{$language->languageID}">
+					</textarea>
+				</dd>
+			</dl>
 
 			{include file='wysiwyg' wysiwygSelector='content'|concat:$language->languageID}
 		</div>
