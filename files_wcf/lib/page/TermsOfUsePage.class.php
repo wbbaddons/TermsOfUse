@@ -18,8 +18,52 @@
 
 namespace wcf\page;
 
+use \wcf\data\termsofuse\revision\TermsofuseRevision;
+use \wcf\system\exception\IllegalLinkException;
+use \wcf\system\WCF;
+
 /**
  * Show the Terms Of Use.
  */
 class TermsOfUsePage extends \wcf\page\AbstractPage {
+	/**
+	 * requested revision
+	 * @var int
+	 */
+	public $revisionID = 0;
+	
+	/**
+	 * revision
+	 * @var \wcf\data\termsofuse\revision\TermsofuseRevision
+	 */
+	public $revision = null;
+	
+	/**
+	 * @inheritDoc
+	 */
+	public function readParameters() {
+		parent::readParameters();
+		
+		if (isset($_GET['id'])) {
+			$this->revisionID = intval($_GET['id']);
+			$this->revision = new TermsofuseRevision($this->revisionID);
+			if (!$this->revision->revisionID) throw new IllegalLinkException();
+		}
+		else {
+			$this->revision = TermsofuseRevision::getMostRecentRevision();
+		}
+		
+		if ($this->revision === null) throw new IllegalLinkException();
+	}
+	
+	/**
+	 * @inheritDoc
+	 */
+	public function assignVariables() {
+		parent::assignVariables();
+		
+		WCF::getTPL()->assign([ 'revisionID' => $this->revisionID
+		                      , 'revision' => $this->revision
+		                      ]);
+	}
 }
