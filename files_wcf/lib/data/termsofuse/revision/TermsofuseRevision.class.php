@@ -18,8 +18,29 @@
 
 namespace wcf\data\termsofuse\revision;
 
+use \wcf\system\WCF;
+
 /**
  * Represents a terms of use revision.
  */
 class TermsofuseRevision extends \wcf\data\DatabaseObject {
+	/**
+	 * Returns the revision most recently enabled, null
+	 * if there is no such revision.
+	 *
+	 * @return	\wcf\data\termsofuse\revision\TermsofuseRevision
+	 */
+	public static function getMostRecentRevision() {
+		$sql = "SELECT   *
+		        FROM     wcf".WCF_N."_termsofuse_revision
+		        WHERE    enabledAt IS NOT NULL
+		        ORDER BY enabledAt DESC";
+		$statement = WCF::getDB()->prepareStatement($sql, 1);
+		$statement->execute();
+		$row = $statement->fetchArray();
+		
+		if ($row === false) return null;
+		
+		return new static(null, $row);
+	}
 }
