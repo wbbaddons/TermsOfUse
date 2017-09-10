@@ -25,10 +25,16 @@ use \wcf\system\WCF;
  */
 class TermsofuseRevision extends \wcf\data\DatabaseObject {
 	/**
+	 * contents by language
+	 * @var string[]
+	 */
+	protected $content = null;
+
+	/**
 	 * Returns the revision most recently enabled, null
 	 * if there is no such revision.
 	 *
-	 * @return	\wcf\data\termsofuse\revision\TermsofuseRevision
+	 * @return \wcf\data\termsofuse\revision\TermsofuseRevision
 	 */
 	public static function getMostRecentRevision() {
 		$sql = "SELECT   *
@@ -42,5 +48,29 @@ class TermsofuseRevision extends \wcf\data\DatabaseObject {
 		if ($row === false) return null;
 		
 		return new static(null, $row);
+	}
+	
+	/**
+	 * Returns the content for the given Language or null
+	 * if there is no version for the given language.
+	 *
+	 * @param  \wcf\data\language\Language $language
+	 * @return string[]
+	 */
+	public function getContent(\wcf\data\language\Language $language) {
+		if ($this->content === null) {
+			$sql = "SELECT *
+			        FROM   wcf".WCF_N."_termsofuse_revision_content
+			        WHERE  revisionID = ?";
+			$statement = WCF::getDB()->prepareStatement($sql);
+			$statement->execute([ $this->revisionID ]);
+			$this->content = $statement->fetchMap('languageID', 'content');
+		}
+		
+		if (isset($this->content[$language->languageID])) {
+			return $this->content[$language->languageID];
+		}
+		
+		return null;
 	}
 }
