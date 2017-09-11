@@ -29,7 +29,13 @@ class TermsofuseRevision extends \wcf\data\DatabaseObject {
 	 * @var string[]
 	 */
 	protected $content = null;
-
+	
+	/**
+	 * output processor to use
+	 * @var \wcf\system\html\output\HtmlOutputProcessor
+	 */
+	protected $outputProcessor = null;
+	
 	/**
 	 * Returns the revision most recently enabled, null
 	 * if there is no such revision.
@@ -64,13 +70,29 @@ class TermsofuseRevision extends \wcf\data\DatabaseObject {
 			        WHERE  revisionID = ?";
 			$statement = WCF::getDB()->prepareStatement($sql);
 			$statement->execute([ $this->revisionID ]);
-			$this->content = $statement->fetchMap('languageID', 'content');
+			while (($row = $statement->fetchArray())) {
+				$this->content[$row['languageID']] = $row;
+			}
 		}
 		
 		if (isset($this->content[$language->languageID])) {
-			return $this->content[$language->languageID];
+			$this->getOutputProcessor()->process($this->content[$language->languageID]['content'], 'be.bastelstu.termsOfUse', $this->content[$language->languageID]['contentID']);
+			return $this->getOutputProcessor()->getHtml();
 		}
 		
 		return null;
+	}
+
+	/**
+	 * Returns the output processor to use.
+	 *
+	 * @return \wcf\system\html\output\HtmlOutputProcessor
+	 */
+	public function getOutputProcessor() {
+		if ($this->outputProcessor === null) {
+			$this->outputProcessor = new \wcf\system\html\output\HtmlOutputProcessor();
+		}
+		
+		return $this->outputProcessor;
 	}
 }
