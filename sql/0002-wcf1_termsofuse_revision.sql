@@ -6,6 +6,7 @@ CREATE TABLE wcf1_termsofuse_revision_content ( contentID  INT(10) NOT NULL AUTO
                                               , revisionID INT(10) NOT NULL
                                               , languageID INT(10) NOT NULL
                                               , content MEDIUMTEXT
+                                              , hasEmbeddedObjects TINYINT(1) NOT NULL DEFAULT 0
                                               , UNIQUE KEY(revisionID, languageID)
                                               );
 

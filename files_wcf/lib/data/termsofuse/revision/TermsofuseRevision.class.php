@@ -70,8 +70,19 @@ class TermsofuseRevision extends \wcf\data\DatabaseObject {
 			        WHERE  revisionID = ?";
 			$statement = WCF::getDB()->prepareStatement($sql);
 			$statement->execute([ $this->revisionID ]);
+			$this->content = [ ];
 			while (($row = $statement->fetchArray())) {
 				$this->content[$row['languageID']] = $row;
+			}
+			
+			$contentIDs = array_map(function (array $row) {
+				return $row['contentID'];
+			}, array_filter($this->content, function (array $row) {
+				return $row['hasEmbeddedObjects'];
+			}));
+			
+			if (!empty($contentIDs)) {
+				\wcf\system\message\embedded\object\MessageEmbeddedObjectManager::getInstance()->loadObjects('be.bastelstu.termsOfUse', $contentIDs);
 			}
 		}
 		
