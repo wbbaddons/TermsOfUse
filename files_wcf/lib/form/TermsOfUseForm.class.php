@@ -118,8 +118,9 @@ class TermsOfUseForm extends AbstractForm {
 			$this->objectAction = new \wcf\data\user\UserAction([ WCF::getUser() ], 'update', $data);
 			$this->objectAction->executeAction();
 
-			WCF::getTPL()->assign('success', 'wcf.termsOfUse.accept.success');
 			$this->saved();
+			\wcf\util\HeaderUtil::delayedRedirect(\wcf\system\request\LinkHandler::getInstance()->getLink(), WCF::getLanguage()->get('wcf.termsOfUse.accept.success'));
+			exit;
 		}
 		else if ($this->reject !== null) {
 			
@@ -138,8 +139,6 @@ class TermsOfUseForm extends AbstractForm {
 		$mostRecent = TermsofuseRevision::getMostRecentRevision();
 		WCF::getTPL()->assign([ 'revisionID'  => $this->revisionID
 		                      , 'revision'    => $this->revision
-		                      , 'isCurrent'   => $mostRecent->revisionID === $this->revision->revisionID
-		                      , 'hasAccepted' => $mostRecent->revisionID === WCF::getUser()->termsOfUseRevision
 		                      ]);
 	}
 }

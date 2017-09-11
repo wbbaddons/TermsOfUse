@@ -23,7 +23,7 @@ use \wcf\system\WCF;
 /**
  * Represents a terms of use revision.
  */
-class TermsofuseRevision extends \wcf\data\DatabaseObject {
+final class TermsofuseRevision extends \wcf\data\DatabaseObject {
 	/**
 	 * contents by language
 	 * @var string[]
@@ -37,23 +37,57 @@ class TermsofuseRevision extends \wcf\data\DatabaseObject {
 	protected $outputProcessor = null;
 	
 	/**
+	 * most recent revision
+	 * @var \wcf\data\termsofuse\revision\TermsofuseRevision
+	 */
+	protected static $mostRecentRevision = false;
+	
+	/**
 	 * Returns the revision most recently enabled, null
 	 * if there is no such revision.
 	 *
 	 * @return \wcf\data\termsofuse\revision\TermsofuseRevision
 	 */
-	public static function getMostRecentRevision() {
-		$sql = "SELECT   *
-		        FROM     wcf".WCF_N."_termsofuse_revision
-		        WHERE    enabledAt IS NOT NULL
-		        ORDER BY enabledAt DESC";
-		$statement = WCF::getDB()->prepareStatement($sql, 1);
-		$statement->execute();
-		$row = $statement->fetchArray();
+	public static function getMostRecentRevision($skipCache = false) {
+		if (self::$mostRecentRevision === false || $skipCache) {
+			$sql = "SELECT   *
+				FROM     wcf".WCF_N."_termsofuse_revision
+				WHERE    enabledAt IS NOT NULL
+				ORDER BY enabledAt DESC";
+			$statement = WCF::getDB()->prepareStatement($sql, 1);
+			$statement->execute();
+			$row = $statement->fetchArray();
+			
+			if ($row === false) {
+				self::$mostRecentRevision = null;
+			}
+			else {
+				self::$mostRecentRevision = new static(null, $row);
+			}
+		}
 		
-		if ($row === false) return null;
-		
-		return new static(null, $row);
+		return self::$mostRecentRevision;
+	}
+	
+	/**
+	 * Returns whether this revision is outdated.
+	 *
+	 * @return bool
+	 */
+	public function isOutdated() {
+		return $this->revisionID !== static::getMostRecentRevision()->revisionID;
+	}
+	
+	/**
+	 * Returns whether the given user has accepted this revision. Throws
+	 * if this revision is outdated.
+	 *
+	 * @return bool
+	 */
+	public function hasAccepted(\wcf\data\user\User $user) {
+		if ($this->isOutdated()) throw new \BadMethodCallException('hasAccepted() is only defined for the most recent revision.');
+
+		return $this->revisionID === $user->termsOfUseRevision;
 	}
 	
 	/**
