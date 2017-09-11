@@ -61,6 +61,7 @@ class TermsOfUseForm extends AbstractForm {
 			$this->revisionID = intval($_GET['id']);
 			$this->revision = new TermsofuseRevision($this->revisionID);
 			if (!$this->revision->revisionID) throw new IllegalLinkException();
+			if (!$this->revision->isActive()) throw new IllegalLinkException();
 		}
 		else {
 			$this->revision = TermsofuseRevision::getMostRecentRevision();

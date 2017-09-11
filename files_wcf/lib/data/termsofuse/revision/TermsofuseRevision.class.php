@@ -70,6 +70,15 @@ final class TermsofuseRevision extends \wcf\data\DatabaseObject {
 	}
 	
 	/**
+	 * Returns whether this revision was enabled.
+	 *
+	 * @return bool
+	 */
+	public function isActive() {
+		return $this->enabledAt !== null;
+	}
+	
+	/**
 	 * Returns whether this revision is outdated.
 	 *
 	 * @return bool
