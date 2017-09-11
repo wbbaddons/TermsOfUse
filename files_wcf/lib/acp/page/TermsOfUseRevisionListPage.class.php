@@ -40,7 +40,7 @@ class TermsOfUseRevisionListPage extends \wcf\page\SortablePage {
 	/**
 	 * @inheritDoc
 	 */
-	public $validSortFields = [ 'revisionID' ];
+	public $validSortFields = [ 'revisionID', 'enabledAt' ];
 
 	/**
 	 * @inheritDoc
