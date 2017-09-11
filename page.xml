@@ -3,12 +3,12 @@
 	<import>
 		<page identifier="be.bastelstu.termsOfUse.TermsOfUse">
 			<pageType>system</pageType>
-			<controller>wcf\page\TermsOfUsePage</controller>
+			<controller>wcf\form\TermsOfUseForm</controller>
 			<name language="de">Nutzungsbestimmungen</name>
 			<name language="en">Terms Of Use</name>
 
 			<content language="en">
-				<title>Terms Of use</title>
+				<title>Terms Of Use</title>
 			</content>
 			<content language="de">
 				<title>Nutzungsbestimmungen</title>
