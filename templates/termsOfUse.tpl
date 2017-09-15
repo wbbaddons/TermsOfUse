@@ -11,7 +11,21 @@
 {include file='formError'}
 
 <section class="section">
-	{@$revision->getContent($__wcf->language)}
+	<dl class="wide">
+		<dt>{lang}wcf.termsOfUse.terms{/lang}</dt>
+		<dd>
+			<div class="container htmlContent">{@$revision->getContent($__wcf->language)}</div>
+			{if $errorField == 'accept' || $errorField == 'reject'}
+				<small class="innerError">
+					{if $errorType == 'empty'}
+						{lang}wcf.global.form.error.empty{/lang}
+					{else}
+						{lang}wcf.termsOfUse.error.{$errorType}{/lang}
+					{/if}
+				</small>
+			{/if}
+		</dd>
+	</dl>
 </section>
 
 {if $__wcf->user && !$revision->isOutdated() && !$revision->hasAccepted($__wcf->user)}
