@@ -1,5 +1,6 @@
 CREATE TABLE wcf1_termsofuse_revision ( revisionID INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY
                                       , enabledAt  INT(10) DEFAULT NULL
+                                      , createdAt  INT(10) NOT NULL
                                       );
 
 CREATE TABLE wcf1_termsofuse_revision_content ( contentID  INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY

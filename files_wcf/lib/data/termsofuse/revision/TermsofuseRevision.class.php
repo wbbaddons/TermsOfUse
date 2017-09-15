@@ -37,10 +37,16 @@ final class TermsofuseRevision extends \wcf\data\DatabaseObject {
 	protected $outputProcessor = null;
 	
 	/**
-	 * most recent revision
+	 * the revision that is currently active
 	 * @var \wcf\data\termsofuse\revision\TermsofuseRevision
 	 */
-	protected static $mostRecentRevision = false;
+	protected static $activeRevision = false;
+	
+	/**
+	 * the latest draft
+	 * @var \wcf\data\termsofuse\revision\TermsofuseRevision
+	 */
+	protected static $latestDraft = false;
 	
 	/**
 	 * Returns the revision most recently enabled, null
@@ -48,25 +54,51 @@ final class TermsofuseRevision extends \wcf\data\DatabaseObject {
 	 *
 	 * @return \wcf\data\termsofuse\revision\TermsofuseRevision
 	 */
-	public static function getMostRecentRevision($skipCache = false) {
-		if (self::$mostRecentRevision === false || $skipCache) {
+	 public static function getActiveRevision($skipCache = false) {
+		if (self::$activeRevision === false || $skipCache) {
 			$sql = "SELECT   *
 				FROM     wcf".WCF_N."_termsofuse_revision
 				WHERE    enabledAt IS NOT NULL
-				ORDER BY enabledAt DESC";
+				ORDER BY createdAt DESC";
 			$statement = WCF::getDB()->prepareStatement($sql, 1);
 			$statement->execute();
 			$row = $statement->fetchArray();
 			
 			if ($row === false) {
-				self::$mostRecentRevision = null;
+				self::$activeRevision = null;
 			}
 			else {
-				self::$mostRecentRevision = new static(null, $row);
+				self::$activeRevision = new static(null, $row);
 			}
 		}
 		
-		return self::$mostRecentRevision;
+		return self::$activeRevision;
+	}
+	
+	/**
+	 * Returns most recent draft.
+	 *
+	 * @return \wcf\data\termsofuse\revision\TermsofuseRevision
+	 */
+	 public static function getLatestDraft($skipCache = false) {
+		if (self::$latestDraft === false || $skipCache) {
+			$sql = "SELECT   *
+				FROM     wcf".WCF_N."_termsofuse_revision
+				WHERE    enabledAt IS NULL
+				ORDER BY createdAt DESC";
+			$statement = WCF::getDB()->prepareStatement($sql, 1);
+			$statement->execute();
+			$row = $statement->fetchArray();
+			
+			if ($row === false) {
+				self::$latestDraft = null;
+			}
+			else {
+				self::$latestDraft = new static(null, $row);
+			}
+		}
+		
+		return self::$latestDraft;
 	}
 	
 	/**
@@ -80,11 +112,18 @@ final class TermsofuseRevision extends \wcf\data\DatabaseObject {
 	
 	/**
 	 * Returns whether this revision is outdated.
+	 * For drafts it returns whether it is the latest draft.
+	 * For non-drafts it returns whether it is the currently active revision.
 	 *
 	 * @return bool
 	 */
 	public function isOutdated() {
-		return $this->revisionID !== static::getMostRecentRevision()->revisionID;
+		if ($this->isActive()) {
+			return $this->revisionID !== static::getActiveRevision()->revisionID;
+		}
+		else {
+			return $this->revisionID !== static::getLatestDraft()->revisionID;
+		}
 	}
 	
 	/**
@@ -94,7 +133,8 @@ final class TermsofuseRevision extends \wcf\data\DatabaseObject {
 	 * @return bool
 	 */
 	public function hasAccepted(\wcf\data\user\User $user) {
-		if ($this->isOutdated()) throw new \BadMethodCallException('hasAccepted() is only defined for the most recent revision.');
+		if (!$this->isActive()) throw new \BadMethodCallException('hasAccepted() is only defined for the active revision.');
+		if ($this->isOutdated()) throw new \BadMethodCallException('hasAccepted() is only defined for the active revision.');
 
 		return $this->revisionID === $user->termsOfUseRevision;
 	}

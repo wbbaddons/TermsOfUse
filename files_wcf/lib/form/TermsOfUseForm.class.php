@@ -64,7 +64,7 @@ class TermsOfUseForm extends AbstractForm {
 			if (!$this->revision->isActive()) throw new IllegalLinkException();
 		}
 		else {
-			$this->revision = TermsofuseRevision::getMostRecentRevision();
+			$this->revision = TermsofuseRevision::getActiveRevision();
 		}
 		
 		if ($this->revision === null) throw new IllegalLinkException();
@@ -86,24 +86,24 @@ class TermsOfUseForm extends AbstractForm {
 	public function validate() {
 		parent::validate();
 		
-		$mostRecent = TermsofuseRevision::getMostRecentRevision();
 		if ($this->accept !== null && $this->reject !== null) {
 			throw new UserInputException('accept', 'conflict');
 		}
+		$active = TermsofuseRevision::getActiveRevision();
 		if ($this->accept !== null) {
-			if ($mostRecent->revisionID === WCF::getUser()->termsOfUseRevision) {
-				throw new UserInputException('accept', 'alreadyAccepted');
-			}
-			if ($this->accept !== $mostRecent->revisionID) {
+			if ($this->accept !== $active->revisionID) {
 				throw new UserInputException('accept', 'outdated');
+			}
+			if ($active->revisionID === WCF::getUser()->termsOfUseRevision) {
+				throw new UserInputException('accept', 'alreadyAccepted');
 			}
 		}
 		if ($this->reject !== null) {
-			if ($mostRecent->revisionID === WCF::getUser()->termsOfUseRevision) {
-				throw new UserInputException('reject', 'alreadyAccepted');
-			}
-			if ($this->reject !== $mostRecent->revisionID) {
+			if ($this->reject !== $active->revisionID) {
 				throw new UserInputException('reject', 'outdated');
+			}
+			if ($active->revisionID === WCF::getUser()->termsOfUseRevision) {
+				throw new UserInputException('reject', 'alreadyAccepted');
 			}
 		}
 	}
@@ -137,7 +137,6 @@ class TermsOfUseForm extends AbstractForm {
 	public function assignVariables() {
 		parent::assignVariables();
 		
-		$mostRecent = TermsofuseRevision::getMostRecentRevision();
 		WCF::getTPL()->assign([ 'revisionID'  => $this->revisionID
 		                      , 'revision'    => $this->revision
 		                      ]);

@@ -26,6 +26,7 @@
 			<thead>
 				<tr>
 					<th class="columnID columnTriggerID{if $sortField == 'revisionID'} active {@$sortOrder}{/if}" colspan="2"><a href="{link controller='TermsOfUseRevisionList' application='wcf'}pageNo={@$pageNo}&sortField=triggerID&sortOrder={if $sortField == 'revisionID' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.global.objectID{/lang}</a></th>
+					<th class="columnCreatedAt{if $sortField == 'createdAt'} active {@$sortOrder}{/if}"><a href="{link controller='TermsOfUseRevisionList' application='wcf'}pageNo={@$pageNo}&sortField=createdAt&sortOrder={if $sortField == 'enabledAt' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.acp.termsOfUse.createdAt{/lang}</a></th>
 					<th class="columnEnabledAt{if $sortField == 'enabledAt'} active {@$sortOrder}{/if}"><a href="{link controller='TermsOfUseRevisionList' application='wcf'}pageNo={@$pageNo}&sortField=enabledAt&sortOrder={if $sortField == 'enabledAt' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.acp.termsOfUse.enabledAt{/lang}</a></th>
 
 					{event name='columnHeads'}
@@ -38,7 +39,7 @@
 					<tr>
 						<td class="columnIcon">
 								<a href="{link controller='TermsOfUseRevisionShow' object=$revision application='wcf'}{/link}" title="{lang}wcf.acp.termsOfUse.show{/lang}" class="jsTooltip"><span class="icon icon16 fa-search"></span></a>
-							{if $revision->enabledAt === null}
+							{if !$revision->isActive() && !$revision->isOutdated()}
 								<a href="{link controller='TermsOfUseEnable' object=$revision application='wcf'}{/link}" title="{lang}wcf.acp.termsOfUse.enable{/lang}" class="jsTooltip"><span class="icon icon16 fa-square-o"></span></a>
 							{else}
 								<span class="icon icon16 fa-{if $revision->enabledAt !== null}check-{/if}square-o disabled" title="{lang}wcf.acp.termsOfUse.enable{/lang}"></span>
@@ -48,6 +49,7 @@
 						</td>
 
 						<td class="columnID">{@$revision->revisionID}</td>
+						<td class="columnCreatedAt">{$revision->createdAt|plainTime}</td>
 						<td class="columnEnabledAt">{if $revision->enabledAt !== null}{$revision->enabledAt|plainTime}{else}{lang}wcf.acp.termsOfUse.draft{/lang}{/if}</td>
 
 						{event name='columns'}
