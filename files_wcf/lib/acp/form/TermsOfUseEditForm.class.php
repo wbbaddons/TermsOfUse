@@ -18,6 +18,7 @@
 
 namespace wcf\acp\form;
 
+use \wcf\system\exception\UserInputException;
 use \wcf\system\html\input\HtmlInputProcessor;
 use \wcf\system\language\LanguageFactory;
 use \wcf\system\WCF;
@@ -70,14 +71,6 @@ class TermsOfUseEditForm extends \wcf\form\AbstractForm {
 	/**
 	 * @inheritDoc
 	 */
-	public function readParameters() {
-		parent::readParameters();
-
-	}
-
-	/**
-	 * @inheritDoc
-	 */
 	public function readFormParameters() {
 		parent::readFormParameters();
 
@@ -95,6 +88,12 @@ class TermsOfUseEditForm extends \wcf\form\AbstractForm {
 	public function validate() {
 		parent::validate();
 
+		foreach ($this->htmlInputProcessors as $languageID => $processor) {
+			$processor->validate();
+			if ($processor->appearsToBeEmpty()) {
+				throw new UserInputException('content'.$languageID);
+			}
+		}
 	}
 
 	/**

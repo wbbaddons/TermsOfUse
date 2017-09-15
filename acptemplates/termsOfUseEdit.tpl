@@ -29,6 +29,16 @@
 				<dd>
 					<textarea name="content[{$language->languageID}]" id="content{$language->languageID}" class="wysiwygTextarea" data-disable-attachments="true" data-autosave="be.bastelstu.termsOfUse-{$language->languageID}">
 					</textarea>
+					
+					{if $errorField == 'content'|concat:$language->languageID}
+						<small class="innerError">
+							{if $errorType == 'empty'}
+								{lang}wcf.global.form.error.empty{/lang}
+							{else}
+								{lang}wcf.acp.termsOfUse.error.{$errorType}{/lang}
+							{/if}
+						</small>
+					{/if}
 				</dd>
 			</dl>
 
