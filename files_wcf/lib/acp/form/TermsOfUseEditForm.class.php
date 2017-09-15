@@ -18,6 +18,7 @@
 
 namespace wcf\acp\form;
 
+use \wcf\data\termsofuse\revision\TermsofuseRevisionAction;
 use \wcf\system\exception\UserInputException;
 use \wcf\system\html\input\HtmlInputProcessor;
 use \wcf\system\language\LanguageFactory;
@@ -102,6 +103,13 @@ class TermsOfUseEditForm extends \wcf\form\AbstractForm {
 	public function save() {
 		parent::save();
 
+		$data = [ 'createdAt' => TIME_NOW ];
+		$this->objectAction = new TermsofuseRevisionAction([ ], 'create', [ 'data' => array_merge($this->additionalFields, $data)
+		                                                                  , 'content' => $this->htmlInputProcessors
+		                                                                  ]);
+		$returnValues = $this->objectAction->executeAction();
+		
+		$this->saved();
 
 		// show success message
 		WCF::getTPL()->assign('success', true);

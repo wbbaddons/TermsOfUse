@@ -18,6 +18,8 @@
 
 namespace wcf\data\termsofuse\revision;
 
+use \wcf\system\WCF;
+
 /**
  * Executes terms of use revision-related actions.
  */
@@ -31,4 +33,32 @@ class TermsofuseRevisionAction extends \wcf\data\AbstractDatabaseObjectAction {
 	 * @inheritDoc
 	 */
 	protected $permissionsUpdate = [ ];
+	
+	/**
+	 * @inheritDoc
+	 */
+	 public function create() {
+		WCF::getDB()->beginTransaction();
+		$result = parent::create();
+
+		$sql = "INSERT INTO wcf".WCF_N."_termsofuse_revision_content
+		                    (revisionID, languageID, content)
+		        VALUES      (?, ?, ?)";
+		$insertStatement = WCF::getDB()->prepareStatement($sql);
+		$sql = "UPDATE wcf".WCF_N."_termsofuse_revision_content
+		        SET    hasEmbeddedObjects = ?
+			WHERE  contentID = ?";
+		$updateStatement = WCF::getDB()->prepareStatement($sql);
+		foreach ($this->parameters['content'] as $languageID => $processor) {
+			$insertStatement->execute([ $result->revisionID, $languageID, $processor->getHtml() ]);
+			$contentID = WCF::getDB()->getInsertID("wcf".WCF_N."_termsofuse_revision_content", "contentID");
+			$processor->setObjectID($contentID);
+			if (\wcf\system\message\embedded\object\MessageEmbeddedObjectManager::getInstance()->registerObjects($processor)) {
+				$updateStatement->execute([ 1, $contentID ]);
+			}
+		}
+		WCF::getDB()->commitTransaction();
+		
+		return $result;
+	}
 }
