@@ -3,14 +3,17 @@
 	<category name="wcf.acp.menu">
 		<item name="wcf.acp.menu.link.termsOfUse"><![CDATA[Terms Of Use]]></item>
 		<item name="wcf.acp.menu.link.termsOfUse.revision.list"><![CDATA[Revision List]]></item>
+		<item name="wcf.acp.menu.link.termsOfUse.edit"><![CDATA[Edit]]></item>
 	</category>
 	
 	<category name="wcf.acp.termsOfUse">
 		<item name="wcf.acp.termsOfUse.revision.list"><![CDATA[Revision List]]></item>
 		<item name="wcf.acp.termsOfUse.enabledAt"><![CDATA[Activation Date]]></item>
+		<item name="wcf.acp.termsOfUse.createdAt"><![CDATA[Creation Date]]></item>
 		<item name="wcf.acp.termsOfUse.enable"><![CDATA[Enable Revision]]></item>
 		<item name="wcf.acp.termsOfUse.show"><![CDATA[Show Revision]]></item>
 		<item name="wcf.acp.termsOfUse.draft"><![CDATA[Draft]]></item>
+		<item name="wcf.acp.termsOfUse.edit"><![CDATA[Edit Terms Of Use]]></item>
 	</category>
 
 	<category name="wcf.page">
