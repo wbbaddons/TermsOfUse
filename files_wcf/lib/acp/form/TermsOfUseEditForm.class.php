@@ -18,6 +18,7 @@
 
 namespace wcf\acp\form;
 
+use \wcf\data\termsofuse\revision\TermsofuseRevision;
 use \wcf\data\termsofuse\revision\TermsofuseRevisionAction;
 use \wcf\system\exception\UserInputException;
 use \wcf\system\html\input\HtmlInputProcessor;
@@ -59,6 +60,12 @@ class TermsOfUseEditForm extends \wcf\form\AbstractForm {
 	 * @var \wcf\system\html\input\HtmlInputProcessor[]
 	 */
 	public $htmlInputProcessors = [ ];
+	
+	/**
+	 * revision being preloaded into the form
+	 * @var \wcf\data\termsofuse\revision\TermsofuseRevision
+	 */
+	public $revision = null;
 
 	/**
 	 * @inheritDoc
@@ -67,6 +74,11 @@ class TermsOfUseEditForm extends \wcf\form\AbstractForm {
 		$this->availableLanguages = LanguageFactory::getInstance()->getLanguages();
 
 		parent::readData();
+
+		$this->revision = TermsofuseRevision::getLatestDraft(true);
+		if ($this->revision === null) {
+			$this->revision = TermsofuseRevision::getActiveRevision(true);
+		}
 	}
 
 	/**
@@ -121,7 +133,9 @@ class TermsOfUseEditForm extends \wcf\form\AbstractForm {
 	public function assignVariables() {
 		parent::assignVariables();
 
-		WCF::getTPL()->assign([ 'availableLanguages' => $this->availableLanguages ]);
+		WCF::getTPL()->assign([ 'availableLanguages' => $this->availableLanguages
+		                      , 'revision'           => $this->revision
+		                      ]);
 	}
 }
 

@@ -76,7 +76,7 @@ final class TermsofuseRevision extends \wcf\data\DatabaseObject {
 	}
 	
 	/**
-	 * Returns most recent draft.
+	 * Returns most recent draft newer than the active revision.
 	 *
 	 * @return \wcf\data\termsofuse\revision\TermsofuseRevision
 	 */
@@ -95,6 +95,10 @@ final class TermsofuseRevision extends \wcf\data\DatabaseObject {
 			}
 			else {
 				self::$latestDraft = new static(null, $row);
+			}
+			
+			if (self::$latestDraft->createdAt < self::getActiveRevision($skipCache)->createdAt) {
+				self::$latestDraft = null;
 			}
 		}
 		
@@ -144,9 +148,10 @@ final class TermsofuseRevision extends \wcf\data\DatabaseObject {
 	 * if there is no version for the given language.
 	 *
 	 * @param  \wcf\data\language\Language $language
+	 * @param  boolean                     $raw
 	 * @return string[]
 	 */
-	public function getContent(\wcf\data\language\Language $language) {
+	public function getContent(\wcf\data\language\Language $language, $raw = false) {
 		if ($this->content === null) {
 			$sql = "SELECT *
 			        FROM   wcf".WCF_N."_termsofuse_revision_content
@@ -170,6 +175,9 @@ final class TermsofuseRevision extends \wcf\data\DatabaseObject {
 		}
 		
 		if (isset($this->content[$language->languageID])) {
+			if ($raw) {
+				return $this->content[$language->languageID]['content'];
+			}
 			$this->getOutputProcessor()->process($this->content[$language->languageID]['content'], 'be.bastelstu.termsOfUse', $this->content[$language->languageID]['contentID']);
 			return $this->getOutputProcessor()->getHtml();
 		}

@@ -19,6 +19,10 @@
 	<p class="success">{lang}wcf.global.success.edit{/lang}</p>
 {/if}
 
+{if $revision !== null && !$revision->isActive()}
+	<p class="info">{lang}wcf.acp.termsOfUse.edit.draft{/lang}</p>
+{/if}
+
 <form method="post" action="{link application='wcf' controller='TermsOfUseEdit'}{/link}">
 	{foreach from=$availableLanguages item='language'}
 		<div class="section">
@@ -27,8 +31,8 @@
 			<dl class="wide">
 				<dt><label for="content{$language->languageID}">TODO</label></dt>
 				<dd>
-					<textarea name="content[{$language->languageID}]" id="content{$language->languageID}" class="wysiwygTextarea" data-disable-attachments="true" data-autosave="be.bastelstu.termsOfUse-{$language->languageID}">
-					</textarea>
+					<textarea name="content[{$language->languageID}]" id="content{$language->languageID}" class="wysiwygTextarea" data-disable-attachments="true" data-autosave="be.bastelstu.termsOfUse-{$language->languageID}">{*
+					*}{if $revision !== null}{$revision->getContent($language, true)}{/if}</textarea>
 					
 					{if $errorField == 'content'|concat:$language->languageID}
 						<small class="innerError">

@@ -14,6 +14,7 @@
 		<item name="wcf.acp.termsOfUse.show"><![CDATA[Show Revision]]></item>
 		<item name="wcf.acp.termsOfUse.draft"><![CDATA[Draft]]></item>
 		<item name="wcf.acp.termsOfUse.edit"><![CDATA[Edit Terms Of Use]]></item>
+		<item name="wcf.acp.termsOfUse.edit.draft"><![CDATA[The preloaded texts belong to a non-published draft version and thus do not resemble the Terms Of Use that are currently in effect.]]></item>
 	</category>
 
 	<category name="wcf.page">
