@@ -118,7 +118,10 @@ class TermsOfUseForm extends AbstractForm {
 		
 		if ($this->accept !== null) {
 			if (WCF::getUser()->userID) {
-				$data = [ 'data' => [ 'termsOfUseRevision' => $this->accept ] ];
+				$data = [ 'data' => [ 'termsOfUseRevision' => $this->accept
+				                    , 'quitStarted'        => 0
+				                    ]
+				        ];
 				$this->objectAction = new \wcf\data\user\UserAction([ WCF::getUser() ], 'update', $data);
 				$this->objectAction->executeAction();
 
@@ -140,10 +143,17 @@ class TermsOfUseForm extends AbstractForm {
 		}
 		else if ($this->reject !== null) {
 			if (WCF::getUser()->userID) {
+				$data = [ 'data' => [ 'quitStarted' => TIME_NOW ] ];
+				$this->objectAction = new \wcf\data\user\UserAction([ WCF::getUser() ], 'update', $data);
+				$this->objectAction->executeAction();
 				
+				\wcf\util\HeaderUtil::delayedRedirect(\wcf\system\request\LinkHandler::getInstance()->getLink('TermsOfUse'), WCF::getLanguage()->get('wcf.termsOfUse.reject.success'));
+				exit;
 			}
 			else {
 				\wcf\util\HeaderUtil::redirect(\wcf\system\request\LinkHandler::getInstance()->getLink());
+				$this->saved();
+				exit;
 			}
 		}
 		else {
