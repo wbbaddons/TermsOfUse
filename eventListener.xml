@@ -7,5 +7,11 @@
 			<listenerclassname>wcf\system\event\listener\DisclaimerFormReadParametersTermsOfUseListener</listenerclassname>
 			<environment>user</environment>
 		</eventlistener>
+		<eventlistener name="afterRegister">
+			<eventclassname>wcf\form\RegisterForm</eventclassname>
+			<eventname>saved</eventname>
+			<listenerclassname>wcf\system\event\listener\RegisterFormSavedTermsOfUseListener</listenerclassname>
+			<environment>user</environment>
+		</eventlistener>
 	</import>
 </data>

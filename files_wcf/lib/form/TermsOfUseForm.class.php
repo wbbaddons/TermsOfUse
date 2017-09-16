@@ -126,7 +126,7 @@ class TermsOfUseForm extends AbstractForm {
 			}
 			else {
 				if (WCF::getSession()->getVar('termsOfUseRegister')) {
-					WCF::getSession()->register('disclaimerAccepted', 1);
+					WCF::getSession()->register('disclaimerAccepted', $this->accept);
 					WCF::getSession()->unregister('termsOfUseRegister');
 					WCF::getSession()->update();
 					
