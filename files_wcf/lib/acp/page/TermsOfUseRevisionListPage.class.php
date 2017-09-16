@@ -19,7 +19,7 @@
 namespace wcf\acp\page;
 
 /**
- * Shows the room list.
+ * Shows the revision list.
  */
 class TermsOfUseRevisionListPage extends \wcf\page\SortablePage {
 	/**
