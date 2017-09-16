@@ -26,15 +26,16 @@
 			{/if}
 		</dd>
 	</dl>
+	
+	{if $__wcf->user && !$revision->isOutdated() && !$revision->hasAccepted($__wcf->user)}
+		<div class="formSubmit">
+			<form method="post" action="{link controller='TermsOfUse'}{/link}">
+				<button type="submit" class="buttonPrimary" name="accept" value="{$revision->revisionID}">{lang}wcf.termsOfUse.accept{/lang}</button>
+				<button type="submit" name="reject" value="{$revision->revisionID}">{lang}wcf.termsOfUse.reject{/lang}</button>
+				{@SECURITY_TOKEN_INPUT_TAG}
+			</form>
+		</div>
+	{/if}
 </section>
 
-{if $__wcf->user && !$revision->isOutdated() && !$revision->hasAccepted($__wcf->user)}
-	<div class="formSubmit">
-		<form method="post" action="{link controller='TermsOfUse'}{/link}">
-			<button type="submit" class="buttonPrimary" name="accept" value="{$revision->revisionID}">{lang}wcf.termsOfUse.accept{/lang}</button>
-			<button type="submit" name="reject" value="{$revision->revisionID}">{lang}wcf.termsOfUse.reject{/lang}</button>
-			{@SECURITY_TOKEN_INPUT_TAG}
-		</form>
-	</div>
-{/if}
 {include file='footer'}
