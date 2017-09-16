@@ -75,9 +75,10 @@ class TermsOfUseEditForm extends \wcf\form\AbstractForm {
 
 		parent::readData();
 
-		$this->revision = TermsofuseRevision::getLatestDraft(true);
-		if ($this->revision === null) {
-			$this->revision = TermsofuseRevision::getActiveRevision(true);
+		$this->revision = $draft = TermsofuseRevision::getLatestDraft(true);
+		$active = TermsofuseRevision::getActiveRevision(true);
+		if ($active && (!$draft || $draft->createdAt < $active->createdAt)) {
+			$this->revision = $active;
 		}
 	}
 

@@ -80,7 +80,7 @@ final class TermsofuseRevision extends \wcf\data\DatabaseObject {
 	 *
 	 * @return \wcf\data\termsofuse\revision\TermsofuseRevision
 	 */
-	 public static function getLatestDraft($skipCache = false) {
+	public static function getLatestDraft($skipCache = false) {
 		if (self::$latestDraft === false || $skipCache) {
 			$sql = "SELECT   *
 				FROM     wcf".WCF_N."_termsofuse_revision
@@ -95,10 +95,6 @@ final class TermsofuseRevision extends \wcf\data\DatabaseObject {
 			}
 			else {
 				self::$latestDraft = new static(null, $row);
-			}
-			
-			if (self::$latestDraft->createdAt < self::getActiveRevision($skipCache)->createdAt) {
-				self::$latestDraft = null;
 			}
 		}
 		
