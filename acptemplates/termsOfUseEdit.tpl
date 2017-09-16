@@ -25,7 +25,7 @@
 
 <form method="post" action="{link application='wcf' controller='TermsOfUseEdit'}{/link}">
 	{foreach from=$availableLanguages item='language'}
-		<div class="section">
+		<section class="section">
 			<h2 class="sectionTitle">{$language}</h2>
 			
 			<dl class="wide">
@@ -47,7 +47,7 @@
 			</dl>
 
 			{include file='wysiwyg' wysiwygSelector='content'|concat:$language->languageID}
-		</div>
+		</section>
 	{/foreach}
 
 	<div class="formSubmit">

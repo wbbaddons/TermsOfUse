@@ -8,6 +8,7 @@
 	
 	<category name="wcf.acp.termsOfUse">
 		<item name="wcf.acp.termsOfUse.revision.list"><![CDATA[Revision List]]></item>
+		<item name="wcf.acp.termsOfUse.revision.show"><![CDATA[Revision]]></item>
 		<item name="wcf.acp.termsOfUse.enabledAt"><![CDATA[Activation Date]]></item>
 		<item name="wcf.acp.termsOfUse.createdAt"><![CDATA[Creation Date]]></item>
 		<item name="wcf.acp.termsOfUse.enable"><![CDATA[Enable Revision]]></item>

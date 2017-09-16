@@ -38,9 +38,9 @@
 				{foreach from=$objects item=revision}
 					<tr>
 						<td class="columnIcon">
-								<a href="{link controller='TermsOfUseRevisionShow' object=$revision application='wcf'}{/link}" title="{lang}wcf.acp.termsOfUse.show{/lang}" class="jsTooltip"><span class="icon icon16 fa-search"></span></a>
+								<a href="{link controller='TermsOfUseRevisionShow' id=$revision->revisionID application='wcf'}{/link}" title="{lang}wcf.acp.termsOfUse.show{/lang}" class="jsTooltip"><span class="icon icon16 fa-search"></span></a>
 							{if !$revision->isActive() && !$revision->isOutdated()}
-								<a href="{link controller='TermsOfUseEnable' object=$revision application='wcf'}{/link}" title="{lang}wcf.acp.termsOfUse.enable{/lang}" class="jsTooltip"><span class="icon icon16 fa-square-o"></span></a>
+								<a href="{link controller='TermsOfUseEnable' id=$revision->revisionID application='wcf'}{/link}" title="{lang}wcf.acp.termsOfUse.enable{/lang}" class="jsTooltip"><span class="icon icon16 fa-square-o"></span></a>
 							{else}
 								<span class="icon icon16 fa-{if $revision->enabledAt !== null}check-{/if}square-o disabled" title="{lang}wcf.acp.termsOfUse.enable{/lang}"></span>
 							{/if}
