@@ -115,16 +115,34 @@ class TermsOfUseForm extends AbstractForm {
 		parent::save();
 		
 		if ($this->accept !== null) {
-			$data = [ 'data' => [ 'termsOfUseRevision' => $this->accept ] ];
-			$this->objectAction = new \wcf\data\user\UserAction([ WCF::getUser() ], 'update', $data);
-			$this->objectAction->executeAction();
+			if (WCF::getUser()->userID) {
+				$data = [ 'data' => [ 'termsOfUseRevision' => $this->accept ] ];
+				$this->objectAction = new \wcf\data\user\UserAction([ WCF::getUser() ], 'update', $data);
+				$this->objectAction->executeAction();
 
-			$this->saved();
-			\wcf\util\HeaderUtil::delayedRedirect(\wcf\system\request\LinkHandler::getInstance()->getLink(), WCF::getLanguage()->get('wcf.termsOfUse.accept.success'));
-			exit;
+				$this->saved();
+				\wcf\util\HeaderUtil::delayedRedirect(\wcf\system\request\LinkHandler::getInstance()->getLink(), WCF::getLanguage()->get('wcf.termsOfUse.accept.success'));
+				exit;
+			}
+			else {
+				if (WCF::getSession()->getVar('termsOfUseRegister')) {
+					WCF::getSession()->register('disclaimerAccepted', 1);
+					WCF::getSession()->unregister('termsOfUseRegister');
+					WCF::getSession()->update();
+					
+					$this->saved();
+					\wcf\util\HeaderUtil::redirect(\wcf\system\request\LinkHandler::getInstance()->getLink('Register'));
+					exit;
+				}
+			}
 		}
 		else if ($this->reject !== null) {
-			
+			if (WCF::getUser()->userID) {
+				
+			}
+			else {
+				\wcf\util\HeaderUtil::redirect(\wcf\system\request\LinkHandler::getInstance()->getLink());
+			}
 		}
 		else {
 			throw new \LogicException('Unreachable');

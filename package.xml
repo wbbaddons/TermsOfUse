@@ -30,6 +30,8 @@
 
 		<instruction type="objectType" />
 
+		<instruction type="eventListener" />
+
 		<instruction type="page" />
 		<instruction type="menuItem" />
 		<instruction type="acpMenu" />

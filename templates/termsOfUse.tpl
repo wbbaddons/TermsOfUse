@@ -27,7 +27,7 @@
 		</dd>
 	</dl>
 	
-	{if $__wcf->user && !$revision->isOutdated() && !$revision->hasAccepted($__wcf->user)}
+	{if ($__wcf->user->userID && !$revision->isOutdated() && !$revision->hasAccepted($__wcf->user)) || (!$__wcf->user->userID && $__wcf->session->getVar('termsOfUseRegister'))}
 		<div class="formSubmit">
 			<form method="post" action="{link controller='TermsOfUse'}{/link}">
 				<button type="submit" class="buttonPrimary" name="accept" value="{$revision->revisionID}">{lang}wcf.termsOfUse.accept{/lang}</button>
