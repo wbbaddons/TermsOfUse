@@ -27,6 +27,8 @@ use \wcf\system\WCF;
  * Show the Terms Of Use.
  */
 class TermsOfUseForm extends AbstractForm {
+	const AVAILABLE_DURING_OFFLINE_MODE = true;
+	
 	/**
 	 * requested revision
 	 * @var int
