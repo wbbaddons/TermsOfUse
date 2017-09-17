@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com http://www.woltlab.com/XSD/maelstrom/language.xsd" languagecode="de">
+	<category name="wcf.acp.menu">
+		<item name="wcf.acp.menu.link.termsOfUse"><![CDATA[Nutzungsbestimmungen]]></item>
+		<item name="wcf.acp.menu.link.termsOfUse.edit"><![CDATA[Bearbeiten]]></item>
+		<item name="wcf.acp.menu.link.termsOfUse.revision.list"><![CDATA[Versionen]]></item>
+	</category>
+	
+	<category name="wcf.acp.termsOfUse">
+		<item name="wcf.acp.termsOfUse.createdAt"><![CDATA[Datum]]></item>
+		<item name="wcf.acp.termsOfUse.draft"><![CDATA[Entwurf]]></item>
+		<item name="wcf.acp.termsOfUse.edit"><![CDATA[Nutzungsbestimmungen bearbeiten]]></item>
+		<item name="wcf.acp.termsOfUse.edit.draft"><![CDATA[Die geladenen Texte gehören zu einem unveröffentlichten Entwurf und spiegeln daher nicht die Nutzungsbestimmungen wieder, die gerade Gültigkeit besitzen.]]></item>
+		<item name="wcf.acp.termsOfUse.enable"><![CDATA[Version veröffentlichen]]></item>
+		<item name="wcf.acp.termsOfUse.enabledAt"><![CDATA[Aktivierungsdatum]]></item>
+		<item name="wcf.acp.termsOfUse.revision.list"><![CDATA[Versionen]]></item>
+		<item name="wcf.acp.termsOfUse.revision.show"><![CDATA[Version]]></item>
+		<item name="wcf.acp.termsOfUse.show"><![CDATA[Version anzeigen]]></item>
+	</category>
+
+	<category name="wcf.page">
+		<item name="wcf.page.onlineLocation.be.bastelstu.termsOfUse.TermsOfUse"><![CDATA[Nutzungsbestimmungen]]></item>
+	</category>
+	
+	<category name="wcf.termsOfUse">
+		<item name="wcf.termsOfUse.accept"><![CDATA[Akzeptieren]]></item>
+		<item name="wcf.termsOfUse.accept.success"><![CDATA[{if LANGUAGE_USE_INFORMAL_VARIANT}Du hast{else}Sie haben{/if} die Nutzungsbestimmungen akzeptiert.]]></item>
+		<item name="wcf.termsOfUse.accepted"><![CDATA[{if LANGUAGE_USE_INFORMAL_VARIANT}Du hast{else}Sie haben{/if} die Nutzungsbestimmungen akzeptiert.]]></item>
+		<item name="wcf.termsOfUse.error.alreadyAccepted"><![CDATA[{if LANGUAGE_USE_INFORMAL_VARIANT}Du hast{else}Sie haben{/if} die Nutzungsbestimmungen bereits akzeptiert.]]></item>
+		<item name="wcf.termsOfUse.error.outdated"><![CDATA[Es wurde in der Zwischenzeit eine neue Version der Nutzungsbestimmungen veröffentlicht.]]></item>
+		<item name="wcf.termsOfUse.lastChange"><![CDATA[Veröffentlicht: {$revision->enabledAt|plainTime}]]></item>
+		<item name="wcf.termsOfUse.outdated"><![CDATA[Dies ist eine ältere Version der Nutzungsbestimmungen.]]></item>
+		<item name="wcf.termsOfUse.reject"><![CDATA[Widersprechen]]></item>
+		<item name="wcf.termsOfUse.reject.success"><![CDATA[{if LANGUAGE_USE_INFORMAL_VARIANT}Du hast{else}Sie haben{/if} den Nutzungsbestimmungen widersprochen. {if LANGUAGE_USE_INFORMAL_VARIANT}Dein{else}Ihr{/if} Benutzerkonto ist nun zur Löschung vorgemerkt.]]></item>
+	</category>
+</language>
