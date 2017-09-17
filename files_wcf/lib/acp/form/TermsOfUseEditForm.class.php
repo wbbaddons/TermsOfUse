@@ -42,7 +42,7 @@ class TermsOfUseEditForm extends \wcf\form\AbstractForm {
 	/**
 	 * @inheritDoc
 	 */
-	public $neededPermissions = [ ]; // TODO
+	public $neededPermissions = [ 'admin.content.canManageTermsOfUse' ];
 
 	/**
 	 * list of available languages

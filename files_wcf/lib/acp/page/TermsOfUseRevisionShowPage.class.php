@@ -35,7 +35,7 @@ class TermsOfUseRevisionShowPage extends \wcf\page\AbstractPage {
 	/**
 	 * @inheritDoc
 	 */
-	public $neededPermissions = [ ]; // TODO
+	 public $neededPermissions = [ 'admin.content.canManageTermsOfUse' ];
 	
 	/**
 	 * requested revision

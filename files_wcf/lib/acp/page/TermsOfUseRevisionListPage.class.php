@@ -30,7 +30,7 @@ class TermsOfUseRevisionListPage extends \wcf\page\SortablePage {
 	/**
 	 * @inheritDoc
 	 */
-	public $neededPermissions = [ ]; // TODO
+	public $neededPermissions = [ 'admin.content.canManageTermsOfUse' ];
 
 	/**
 	 * @inheritDoc

@@ -8,14 +8,14 @@
 		<acpmenuitem name="wcf.acp.menu.link.termsOfUse.revision.list">
 			<controller>wcf\acp\page\TermsOfUseRevisionListPage</controller>
 			<parent>wcf.acp.menu.link.termsOfUse</parent>
-			<!--permissions></permissions> TODO -->
+			<permissions>admin.content.canManageTermsOfUse</permissions>
 			<showorder>1</showorder>
 		</acpmenuitem>
 
 		<acpmenuitem name="wcf.acp.menu.link.termsOfUse.edit">
 			<controller>wcf\acp\page\TermsOfUseEditPage</controller>
 			<parent>wcf.acp.menu.link.termsOfUse</parent>
-			<!--permissions></permissions> TODO -->
+			<permissions>admin.content.canManageTermsOfUse</permissions>
 			<showorder>2</showorder>
 		</acpmenuitem>
 	</import>

@@ -37,6 +37,8 @@
 		<instruction type="acpMenu" />
 
 		<instruction type="language" />
+
+		<instruction type="userGroupOption" />
 	</instructions>
 	
 	<instructions type="update" fromversion="1.0.0 Alpha *">
@@ -53,5 +55,7 @@
 		<instruction type="acpMenu" />
 
 		<instruction type="language" />
+
+		<instruction type="userGroupOption" />
 	</instructions>
 </package>

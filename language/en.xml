@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <language xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com http://www.woltlab.com/XSD/maelstrom/language.xsd" languagecode="en">
+	<category name="wcf.acp.group">
+		<item name="wcf.acp.group.option.admin.content.canManageTermsOfUse"><![CDATA[Can manage Terms Of Use]]></item>
+	</category>
+
 	<category name="wcf.acp.menu">
 		<item name="wcf.acp.menu.link.termsOfUse"><![CDATA[Terms Of Use]]></item>
 		<item name="wcf.acp.menu.link.termsOfUse.edit"><![CDATA[Edit]]></item>

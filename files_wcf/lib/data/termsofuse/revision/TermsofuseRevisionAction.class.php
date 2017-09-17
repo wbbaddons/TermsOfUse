@@ -18,12 +18,13 @@
 
 namespace wcf\data\termsofuse\revision;
 
+use \wcf\system\exception\PermissionDeniedException;
 use \wcf\system\WCF;
 
 /**
  * Executes terms of use revision-related actions.
  */
-class TermsofuseRevisionAction extends \wcf\data\AbstractDatabaseObjectAction {
+class TermsofuseRevisionAction extends \wcf\data\AbstractDatabaseObjectAction implements \wcf\data\IToggleAction {
 	/**
 	 * @inheritDoc
 	 */
@@ -32,7 +33,12 @@ class TermsofuseRevisionAction extends \wcf\data\AbstractDatabaseObjectAction {
 	/**
 	 * @inheritDoc
 	 */
-	protected $permissionsUpdate = [ ];
+	protected $permissionsUpdate = [ 'admin.content.canManageTermsOfUse' ];
+	
+	/**
+	 * @inheritDoc
+	 */
+	 protected $requireACP = [ 'create', 'delete', 'toggle' ];
 	
 	/**
 	 * @inheritDoc
@@ -60,5 +66,44 @@ class TermsofuseRevisionAction extends \wcf\data\AbstractDatabaseObjectAction {
 		WCF::getDB()->commitTransaction();
 		
 		return $result;
+	}
+	
+	/**
+	 * @inheritDoc
+	 */
+	public function validateUpdate() {
+		throw new PermissionDeniedException();
+	}
+	
+	/**
+	 * @inheritDoc
+	 */
+	public function validateDelete() {
+		throw new PermissionDeniedException();
+	}
+	
+	/**
+	 * @inheritDoc
+	 */
+	public function validateToggle() {
+		parent::validateUpdate();
+		
+		foreach ($this->getObjects() as $object) {
+			if ($object->isActive()) {
+				throw new PermissionDeniedException();
+			}
+			if ($object->isOutdated()) {
+				throw new PermissionDeniedException();
+			}
+		}
+	}
+	
+	/**
+	 * @inheritDoc
+	 */
+	public function toggle() {
+		foreach ($this->getObjects() as $object) {
+			$object->update([ 'enabledAt' => TIME_NOW ]);
+		}
 	}
 }
