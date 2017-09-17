@@ -32,5 +32,6 @@
 		<item name="wcf.termsOfUse.outdated"><![CDATA[This is an older revision of the Terms Of Use.]]></item>
 		<item name="wcf.termsOfUse.reject"><![CDATA[Decline]]></item>
 		<item name="wcf.termsOfUse.reject.success"><![CDATA[You declined the Terms Of Use. Your account is now scheduled for deletion.]]></item>
+		<item name="wcf.termsOfUse.terms"><![CDATA[Terms Of Use]]></item>
 	</category>
 </language>

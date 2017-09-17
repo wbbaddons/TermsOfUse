@@ -32,5 +32,6 @@
 		<item name="wcf.termsOfUse.outdated"><![CDATA[Dies ist eine ältere Version der Nutzungsbestimmungen.]]></item>
 		<item name="wcf.termsOfUse.reject"><![CDATA[Widersprechen]]></item>
 		<item name="wcf.termsOfUse.reject.success"><![CDATA[{if LANGUAGE_USE_INFORMAL_VARIANT}Du hast{else}Sie haben{/if} den Nutzungsbestimmungen widersprochen. {if LANGUAGE_USE_INFORMAL_VARIANT}Dein{else}Ihr{/if} Benutzerkonto ist nun zur Löschung vorgemerkt.]]></item>
+		<item name="wcf.termsOfUse.terms"><![CDATA[Nutzungsbestimmungen]]></item>
 	</category>
 </language>
