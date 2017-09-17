@@ -45,7 +45,7 @@
 					<tr class="jsRevisionRow">
 						<td class="columnIcon">
 								<a href="{link controller='TermsOfUseRevisionShow' id=$revision->revisionID application='wcf'}{/link}" title="{lang}wcf.acp.termsOfUse.show{/lang}" class="jsTooltip"><span class="icon icon16 fa-search"></span></a>
-							{if !$revision->isActive() && !$revision->isOutdated()}
+							{if $revision->isNewerThanActive()}
 								<span class="icon icon16 fa-square-o jsTooltip jsToggleButton pointer" data-object-id="{$revision->revisionID}" title="{lang}wcf.acp.termsOfUse.enable{/lang}"></span>
 							{else}
 								<span class="icon icon16 fa-{if $revision->enabledAt !== null}check-{/if}square-o disabled" title="{lang}wcf.acp.termsOfUse.enable{/lang}"></span>

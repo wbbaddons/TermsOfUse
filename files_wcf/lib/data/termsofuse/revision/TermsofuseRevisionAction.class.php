@@ -92,7 +92,7 @@ class TermsofuseRevisionAction extends \wcf\data\AbstractDatabaseObjectAction im
 			if ($object->isActive()) {
 				throw new PermissionDeniedException();
 			}
-			if ($object->isOutdated()) {
+			if (!$object->isNewerThanActive()) {
 				throw new PermissionDeniedException();
 			}
 		}

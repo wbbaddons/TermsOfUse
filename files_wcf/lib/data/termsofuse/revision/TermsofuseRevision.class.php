@@ -111,6 +111,18 @@ final class TermsofuseRevision extends \wcf\data\DatabaseObject {
 	}
 	
 	/**
+	 * Returns whether this revision is more recent than the active revision.
+	 *
+	 * @return bool
+	 */
+	public function isNewerThanActive($skipCache = false) {
+		$active = TermsofuseRevision::getActiveRevision($skipCache);
+		if ($active === null) return true;
+
+		return $this->createdAt > $active->createdAt;
+	}
+	
+	/**
 	 * Returns whether this revision is outdated.
 	 * For drafts it returns whether it is the latest draft.
 	 * For non-drafts it returns whether it is the currently active revision.
