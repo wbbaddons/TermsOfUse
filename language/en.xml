@@ -2,20 +2,20 @@
 <language xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com http://www.woltlab.com/XSD/maelstrom/language.xsd" languagecode="en">
 	<category name="wcf.acp.menu">
 		<item name="wcf.acp.menu.link.termsOfUse"><![CDATA[Terms Of Use]]></item>
-		<item name="wcf.acp.menu.link.termsOfUse.revision.list"><![CDATA[Revision List]]></item>
 		<item name="wcf.acp.menu.link.termsOfUse.edit"><![CDATA[Edit]]></item>
+		<item name="wcf.acp.menu.link.termsOfUse.revision.list"><![CDATA[Revision List]]></item>
 	</category>
 	
 	<category name="wcf.acp.termsOfUse">
-		<item name="wcf.acp.termsOfUse.revision.list"><![CDATA[Revision List]]></item>
-		<item name="wcf.acp.termsOfUse.revision.show"><![CDATA[Revision]]></item>
-		<item name="wcf.acp.termsOfUse.enabledAt"><![CDATA[Activation Date]]></item>
 		<item name="wcf.acp.termsOfUse.createdAt"><![CDATA[Creation Date]]></item>
-		<item name="wcf.acp.termsOfUse.enable"><![CDATA[Enable Revision]]></item>
-		<item name="wcf.acp.termsOfUse.show"><![CDATA[Show Revision]]></item>
 		<item name="wcf.acp.termsOfUse.draft"><![CDATA[Draft]]></item>
 		<item name="wcf.acp.termsOfUse.edit"><![CDATA[Edit Terms Of Use]]></item>
 		<item name="wcf.acp.termsOfUse.edit.draft"><![CDATA[The preloaded texts belong to a non-published draft version and thus do not resemble the Terms Of Use that are currently in effect.]]></item>
+		<item name="wcf.acp.termsOfUse.enable"><![CDATA[Enable Revision]]></item>
+		<item name="wcf.acp.termsOfUse.enabledAt"><![CDATA[Activation Date]]></item>
+		<item name="wcf.acp.termsOfUse.revision.list"><![CDATA[Revision List]]></item>
+		<item name="wcf.acp.termsOfUse.revision.show"><![CDATA[Revision]]></item>
+		<item name="wcf.acp.termsOfUse.show"><![CDATA[Show Revision]]></item>
 	</category>
 
 	<category name="wcf.page">
@@ -26,11 +26,11 @@
 		<item name="wcf.termsOfUse.accept"><![CDATA[Accept]]></item>
 		<item name="wcf.termsOfUse.accept.success"><![CDATA[You successfully accepted the Terms Of Use.]]></item>
 		<item name="wcf.termsOfUse.accepted"><![CDATA[You accepted the Terms Of Use.]]></item>
+		<item name="wcf.termsOfUse.error.alreadyAccepted"><![CDATA[You already accepted the Terms Of Use.]]></item>
+		<item name="wcf.termsOfUse.error.outdated"><![CDATA[A new version of the Terms Of Use was published in the mean time.]]></item>
+		<item name="wcf.termsOfUse.lastChange"><![CDATA[Published: {$revision->enabledAt|plainTime}]]></item>
+		<item name="wcf.termsOfUse.outdated"><![CDATA[This is an older revision of the Terms Of Use.]]></item>
 		<item name="wcf.termsOfUse.reject"><![CDATA[Decline]]></item>
 		<item name="wcf.termsOfUse.reject.success"><![CDATA[You declined the Terms Of Use. Your account is now scheduled for deletion.]]></item>
-		<item name="wcf.termsOfUse.outdated"><![CDATA[This is an older revision of the Terms Of Use.]]></item>
-		<item name="wcf.termsOfUse.error.outdated"><![CDATA[A new version of the Terms Of Use was published in the mean time.]]></item>
-		<item name="wcf.termsOfUse.error.alreadyAccepted"><![CDATA[You already accepted the Terms Of Use.]]></item>
-		<item name="wcf.termsOfUse.lastChange"><![CDATA[Published: {$revision->enabledAt|plainTime}]]></item>
 	</category>
 </language>
