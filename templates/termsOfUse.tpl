@@ -1,3 +1,5 @@
+{capture assign='contentDescription'}{lang}wcf.termsOfUse.lastChange{/lang}{/capture}
+
 {include file='header'}
 {if $revision->isOutdated()}
 	<p class="info">{lang}wcf.termsOfUse.outdated{/lang}</p>

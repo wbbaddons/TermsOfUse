@@ -4,8 +4,8 @@
 		<packagename>Terms Of Use</packagename>
 		<packagename language="de">Nutzungsbestimmungen</packagename>
 		<isapplication>0</isapplication>
-		<version>1.0.0 Alpha 1</version>
-		<date>2017-09-04</date>
+		<version>1.0.0 Alpha 2</version>
+		<date>2017-09-17</date>
 	</packageinformation>
 
 	<authorinformation>
@@ -24,6 +24,22 @@
 	<instructions type="install">
 		<instruction type="sql">sql/0001-wcf1_user_termsOfUseRevision.sql</instruction>
 		<instruction type="sql">sql/0002-wcf1_termsofuse_revision.sql</instruction>
+		<instruction type="file" application="wcf">files_wcf.tar</instruction>
+		<instruction type="template" />
+		<instruction type="acpTemplate" />
+
+		<instruction type="objectType" />
+
+		<instruction type="eventListener" />
+
+		<instruction type="page" />
+		<instruction type="menuItem" />
+		<instruction type="acpMenu" />
+
+		<instruction type="language" />
+	</instructions>
+	
+	<instructions type="update" fromversion="1.0.0 Alpha *">
 		<instruction type="file" application="wcf">files_wcf.tar</instruction>
 		<instruction type="template" />
 		<instruction type="acpTemplate" />

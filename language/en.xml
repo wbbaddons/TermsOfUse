@@ -31,5 +31,6 @@
 		<item name="wcf.termsOfUse.outdated"><![CDATA[This is an older revision of the Terms Of Use.]]></item>
 		<item name="wcf.termsOfUse.error.outdated"><![CDATA[A new version of the Terms Of Use was published in the mean time.]]></item>
 		<item name="wcf.termsOfUse.error.alreadyAccepted"><![CDATA[You already accepted the Terms Of Use.]]></item>
+		<item name="wcf.termsOfUse.lastChange"><![CDATA[Published: {$revision->enabledAt|plainTime}]]></item>
 	</category>
 </language>
