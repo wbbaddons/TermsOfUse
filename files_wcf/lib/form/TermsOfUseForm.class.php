@@ -126,7 +126,7 @@ class TermsOfUseForm extends AbstractForm {
 				$this->objectAction->executeAction();
 
 				$this->saved();
-				\wcf\util\HeaderUtil::delayedRedirect(\wcf\system\request\LinkHandler::getInstance()->getLink(), WCF::getLanguage()->get('wcf.termsOfUse.accept.success'));
+				\wcf\util\HeaderUtil::delayedRedirect(\wcf\system\request\LinkHandler::getInstance()->getLink(), WCF::getLanguage()->getDynamicVariable('wcf.termsOfUse.accept.success'));
 				exit;
 			}
 			else {
@@ -147,7 +147,7 @@ class TermsOfUseForm extends AbstractForm {
 				$this->objectAction = new \wcf\data\user\UserAction([ WCF::getUser() ], 'update', $data);
 				$this->objectAction->executeAction();
 				
-				\wcf\util\HeaderUtil::delayedRedirect(\wcf\system\request\LinkHandler::getInstance()->getLink('TermsOfUse'), WCF::getLanguage()->get('wcf.termsOfUse.reject.success'));
+				\wcf\util\HeaderUtil::delayedRedirect(\wcf\system\request\LinkHandler::getInstance()->getLink('TermsOfUse'), WCF::getLanguage()->getDynamicVariable('wcf.termsOfUse.reject.success'));
 				exit;
 			}
 			else {
