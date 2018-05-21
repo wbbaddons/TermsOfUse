@@ -36,7 +36,8 @@ class ControllerTermsOfUseListener implements IParameterizedEventListener {
 		if (!WCF::getUser()->userID) return;
 		$active = TermsofuseRevision::getActiveRevision();
 		if ($active === null) return;
-		if (WCF::getUser()->termsOfUseRevision === $active->revisionID) return;
+		if ($active->hasAccepted(WCF::getUser())) return;
+
 		if (RequestHandler::getInstance()->getActiveRequest()->isAvailableDuringOfflineMode()) return;
 		
 		if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && ($_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest')) {

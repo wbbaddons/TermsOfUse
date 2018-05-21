@@ -29,7 +29,7 @@
 	<category name="wcf.termsOfUse">
 		<item name="wcf.termsOfUse.accept"><![CDATA[Accept]]></item>
 		<item name="wcf.termsOfUse.accept.success"><![CDATA[You successfully accepted the Terms Of Use.]]></item>
-		<item name="wcf.termsOfUse.accepted"><![CDATA[You accepted the Terms Of Use.]]></item>
+		<item name="wcf.termsOfUse.accepted"><![CDATA[You accepted the Terms Of Use{if $acceptedAt} at {$acceptedAt|plainTime}{/if}.]]></item>
 		<item name="wcf.termsOfUse.error.alreadyAccepted"><![CDATA[You already accepted the Terms Of Use.]]></item>
 		<item name="wcf.termsOfUse.error.outdated"><![CDATA[A new version of the Terms Of Use was published in the mean time.]]></item>
 		<item name="wcf.termsOfUse.lastChange"><![CDATA[Published: {$revision->enabledAt|plainTime}]]></item>

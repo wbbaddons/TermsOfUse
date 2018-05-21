@@ -29,7 +29,7 @@
 	<category name="wcf.termsOfUse">
 		<item name="wcf.termsOfUse.accept"><![CDATA[Akzeptieren]]></item>
 		<item name="wcf.termsOfUse.accept.success"><![CDATA[{if LANGUAGE_USE_INFORMAL_VARIANT}Du hast{else}Sie haben{/if} die Nutzungsbestimmungen akzeptiert.]]></item>
-		<item name="wcf.termsOfUse.accepted"><![CDATA[{if LANGUAGE_USE_INFORMAL_VARIANT}Du hast{else}Sie haben{/if} die Nutzungsbestimmungen akzeptiert.]]></item>
+		<item name="wcf.termsOfUse.accepted"><![CDATA[{if LANGUAGE_USE_INFORMAL_VARIANT}Du hast{else}Sie haben{/if} die Nutzungsbestimmungen{if $acceptedAt} am {$acceptedAt|plainTime}{/if} akzeptiert.]]></item>
 		<item name="wcf.termsOfUse.error.alreadyAccepted"><![CDATA[{if LANGUAGE_USE_INFORMAL_VARIANT}Du hast{else}Sie haben{/if} die Nutzungsbestimmungen bereits akzeptiert.]]></item>
 		<item name="wcf.termsOfUse.error.outdated"><![CDATA[Es wurde in der Zwischenzeit eine neue Version der Nutzungsbestimmungen veröffentlicht.]]></item>
 		<item name="wcf.termsOfUse.lastChange"><![CDATA[Veröffentlicht: {$revision->enabledAt|plainTime}]]></item>

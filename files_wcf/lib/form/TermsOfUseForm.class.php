@@ -118,12 +118,15 @@ class TermsOfUseForm extends AbstractForm {
 		
 		if ($this->accept !== null) {
 			if (WCF::getUser()->userID) {
-				$data = [ 'data' => [ 'termsOfUseRevision' => $this->accept
-				                    , 'quitStarted'        => 0
-				                    ]
-				        ];
+				WCF::getDB()->beginTransaction();
+				$data = [ 'data' => [ 'quitStarted' => 0 ] ];
 				$this->objectAction = new \wcf\data\user\UserAction([ WCF::getUser() ], 'update', $data);
 				$this->objectAction->executeAction();
+				$sql = "INSERT INTO wcf".WCF_N."_termsofuse_revision_to_user (userID, revisionID, acceptedAt)
+				        VALUES (?, ?, ?)";
+				$statement = WCF::getDB()->prepareStatement($sql);
+				$statement->execute([ WCF::getUser()->userID, $this->accept, TIME_NOW ]);
+				WCF::getDB()->commitTransaction();
 
 				$this->saved();
 				\wcf\util\HeaderUtil::delayedRedirect(\wcf\system\request\LinkHandler::getInstance()->getLink(), WCF::getLanguage()->getDynamicVariable('wcf.termsOfUse.accept.success'));

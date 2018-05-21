@@ -30,7 +30,9 @@ class RegisterFormSavedTermsOfUseListener implements IParameterizedEventListener
 	 * @inheritDoc
 	 */
 	public function execute($eventObj, $className, $eventName, array &$parameters) {
-		$userEditor = new \wcf\data\user\UserEditor(WCF::getUser());
-		$userEditor->update([ 'termsOfUseRevision' => WCF::getSession()->getVar('disclaimerAccepted') ]);
+		$sql = "INSERT INTO wcf".WCF_N."_termsofuse_revision_to_user (userID, revisionID, acceptedAt)
+		        VALUES (?, ?, ?)";
+		$statement = WCF::getDB()->prepareStatement($sql);
+		$statement->execute([ WCF::getUser()->userID, WCF::getSession()->getVar('disclaimerAccepted'), TIME_NOW ]);
 	}
 }

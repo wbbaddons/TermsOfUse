@@ -145,10 +145,13 @@ final class TermsofuseRevision extends \wcf\data\DatabaseObject {
 	 * @return bool
 	 */
 	public function hasAccepted(\wcf\data\user\User $user) {
-		if (!$this->isActive()) throw new \BadMethodCallException('hasAccepted() is only defined for the active revision.');
-		if ($this->isOutdated()) throw new \BadMethodCallException('hasAccepted() is only defined for the active revision.');
-
-		return $this->revisionID === $user->termsOfUseRevision;
+		$sql = "SELECT  acceptedAt
+		        FROM    wcf".WCF_N."_termsofuse_revision_to_user
+		        WHERE       revisionID = ?
+		                AND userID = ?";
+		$statement = WCF::getDB()->prepareStatement($sql);
+		$statement->execute([ $this->revisionID, WCF::getUser()->userID ]);
+		return $statement->fetchColumn();
 	}
 	
 	/**

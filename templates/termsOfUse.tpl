@@ -2,9 +2,11 @@
 
 {include file='header'}
 {if $revision->isOutdated()}
-	<p class="info">{lang}wcf.termsOfUse.outdated{/lang}</p>
-{elseif $revision->hasAccepted($__wcf->user)}
-	<p class="info">{lang}wcf.termsOfUse.accepted{/lang}</p>
+	<p class="warning">{lang}wcf.termsOfUse.outdated{/lang}</p>
+{/if}
+{assign var='acceptedAt' value=$revision->hasAccepted($__wcf->user)}
+{if $acceptedAt !== false}
+	<p class="info">{lang acceptedAt=$acceptedAt}wcf.termsOfUse.accepted{/lang}</p>
 {/if}
 
 {if $success|isset}
@@ -29,7 +31,7 @@
 		</dd>
 	</dl>
 	
-	{if ($__wcf->user->userID && !$revision->isOutdated() && !$revision->hasAccepted($__wcf->user)) || (!$__wcf->user->userID && $__wcf->session->getVar('termsOfUseRegister'))}
+	{if ($__wcf->user->userID && !$revision->isOutdated() && $acceptedAt === false) || (!$__wcf->user->userID && $__wcf->session->getVar('termsOfUseRegister'))}
 		<div class="formSubmit">
 			<form method="post" action="{link controller='TermsOfUse'}{/link}">
 				<button type="submit" class="buttonPrimary" name="accept" value="{$revision->revisionID}">{lang}wcf.termsOfUse.accept{/lang}</button>
