@@ -4,7 +4,7 @@
 		<packagename>Terms Of Use</packagename>
 		<packagename language="de">Nutzungsbestimmungen</packagename>
 		<isapplication>0</isapplication>
-		<version>1.0.0 Alpha 10</version>
+		<version>1.0.0 Beta 1</version>
 		<date>2018-05-21</date>
 		<license><![CDATA[Affero General Public License 3 <https://www.gnu.org/licenses/agpl-3.0.html>]]></license>
 	</packageinformation>
@@ -42,7 +42,25 @@
 
 		<instruction type="userGroupOption" />
 	</instructions>
-	
+
+	<instructions type="update" fromversion="1.0.0 Alpha 10">
+		<instruction type="file" application="wcf">files_wcf.tar</instruction>
+		<instruction type="template" />
+		<instruction type="acpTemplate" />
+
+		<instruction type="objectType" />
+
+		<instruction type="eventListener" />
+
+		<instruction type="page" />
+		<instruction type="menuItem" />
+		<instruction type="acpMenu" />
+
+		<instruction type="language" />
+
+		<instruction type="userGroupOption" />
+	</instructions>
+
 	<instructions type="update" fromversion="1.0.0 Alpha 9">
 		<instruction type="file" application="wcf">files_wcf.tar</instruction>
 		<instruction type="template" />

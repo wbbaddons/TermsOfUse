@@ -27,5 +27,11 @@
 			<environment>user</environment>
 			<inherit>1</inherit>
 		</eventlistener>
+		<eventlistener name="gdpr">
+			<eventclassname>wcf\acp\action\UserExportGdprAction</eventclassname>
+			<eventname>export</eventname>
+			<listenerclassname>wcf\system\event\listener\UserExportGdprActionTermsOfUseListener</listenerclassname>
+			<environment>admin</environment>
+		</eventlistener>
 	</import>
 </data>
