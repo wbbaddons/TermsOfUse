@@ -19,9 +19,7 @@
 namespace wcf\system\event\listener;
 
 use \wcf\form\RegisterForm;
-use \wcf\system\request\LinkHandler;
 use \wcf\system\WCF;
-use \wcf\util\HeaderUtil;
 
 /**
  * Stores the accepted version of the terms of use after registration.
