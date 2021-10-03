@@ -18,7 +18,9 @@
 
 namespace wcf\system\event\listener;
 
+use \wcf\action\AbstractAction;
 use \wcf\data\termsofuse\revision\TermsofuseRevision;
+use \wcf\page\AbstractPage;
 use \wcf\system\exception\AJAXException;
 use \wcf\system\request\LinkHandler;
 use \wcf\system\request\RequestHandler;
@@ -31,6 +33,7 @@ use \wcf\util\HeaderUtil;
 class ControllerTermsOfUseListener implements IParameterizedEventListener {
 	/**
 	 * @inheritDoc
+	 * @param AbstractPage|AbstractAction $eventObj
 	 */
 	public function execute($eventObj, $className, $eventName, array &$parameters) {
 		if (!WCF::getUser()->userID) return;

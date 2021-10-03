@@ -18,6 +18,7 @@
 
 namespace wcf\system\event\listener;
 
+use \wcf\acp\action\UserExportGdprAction;
 use \wcf\system\WCF;
 
 /**
@@ -26,6 +27,7 @@ use \wcf\system\WCF;
 class UserExportGdprActionTermsOfUseListener implements IParameterizedEventListener {
 	/**
 	 * @inheritDoc
+	 * @param UserExportGdprAction $eventObj
 	 */
 	public function execute($eventObj, $className, $eventName, array &$parameters) {
 		$sql = "SELECT     revisionID, r.enabledAt, r2u.acceptedAt, rc.content, l.languageCode

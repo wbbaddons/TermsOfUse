@@ -18,6 +18,7 @@
 
 namespace wcf\system\event\listener;
 
+use \wcf\form\RegisterForm;
 use \wcf\system\request\LinkHandler;
 use \wcf\system\WCF;
 use \wcf\util\HeaderUtil;
@@ -28,6 +29,7 @@ use \wcf\util\HeaderUtil;
 class RegisterFormSavedTermsOfUseListener implements IParameterizedEventListener {
 	/**
 	 * @inheritDoc
+	 * @param RegisterForm $eventObj
 	 */
 	public function execute($eventObj, $className, $eventName, array &$parameters) {
 		$sql = "INSERT INTO wcf".WCF_N."_termsofuse_revision_to_user (userID, revisionID, acceptedAt)
