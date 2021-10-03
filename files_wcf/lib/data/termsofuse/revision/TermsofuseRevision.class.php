@@ -59,7 +59,7 @@ final class TermsofuseRevision extends DatabaseObject
      * Returns the revision most recently enabled, null
      * if there is no such revision.
      */
-    public static function getActiveRevision(bool $skipCache = false): ?TermsofuseRevision
+    public static function getActiveRevision(bool $skipCache = false): ?self
     {
         if (self::$activeRevision === false || $skipCache) {
             $sql = "SELECT      *

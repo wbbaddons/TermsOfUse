@@ -28,6 +28,7 @@ use wcf\system\WCF;
 class RegisterFormSavedTermsOfUseListener implements IParameterizedEventListener
 {
     private $revisionID;
+
     /**
      * @inheritDoc
      * @param RegisterForm $eventObj
@@ -37,6 +38,7 @@ class RegisterFormSavedTermsOfUseListener implements IParameterizedEventListener
         switch ($eventName) {
             case 'save':
                 $this->revisionID = WCF::getSession()->getVar('disclaimerAccepted');
+
                 return;
             case 'saved':
                 $sql = "INSERT INTO wcf" . WCF_N . "_termsofuse_revision_to_user
@@ -48,6 +50,7 @@ class RegisterFormSavedTermsOfUseListener implements IParameterizedEventListener
                     $this->revisionID,
                     TIME_NOW,
                 ]);
+
                 return;
             default:
                 throw new \LogicException('Unreachable');
