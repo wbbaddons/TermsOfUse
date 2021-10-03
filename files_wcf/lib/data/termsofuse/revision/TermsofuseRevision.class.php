@@ -142,12 +142,9 @@ final class TermsofuseRevision extends DatabaseObject
     }
 
     /**
-     * Returns whether the given user has accepted this revision. Throws
-     * if this revision is outdated.
-     *
-     * @return bool
+     * Returns whether the given user has accepted this revision.
      */
-    public function hasAccepted(User $user)
+    public function hasAccepted(User $user): bool
     {
         $sql = "SELECT  acceptedAt
                 FROM    wcf" . WCF_N . "_termsofuse_revision_to_user
@@ -156,7 +153,7 @@ final class TermsofuseRevision extends DatabaseObject
         $statement = WCF::getDB()->prepareStatement($sql);
         $statement->execute([ $this->revisionID, $user->userID ]);
 
-        return $statement->fetchColumn();
+        return $statement->fetchColumn() !== false;
     }
 
     /**
