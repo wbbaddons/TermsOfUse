@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2017, Tim Düsterhus
  *
@@ -18,21 +19,28 @@
 
 namespace wcf\system\event\listener;
 
-use \wcf\form\RegisterForm;
-use \wcf\system\WCF;
+use wcf\form\RegisterForm;
+use wcf\system\WCF;
 
 /**
  * Stores the accepted version of the terms of use after registration.
  */
-class RegisterFormSavedTermsOfUseListener implements IParameterizedEventListener {
-	/**
-	 * @inheritDoc
-	 * @param RegisterForm $eventObj
-	 */
-	public function execute($eventObj, $className, $eventName, array &$parameters) {
-		$sql = "INSERT INTO wcf".WCF_N."_termsofuse_revision_to_user (userID, revisionID, acceptedAt)
-		        VALUES (?, ?, ?)";
-		$statement = WCF::getDB()->prepareStatement($sql);
-		$statement->execute([ WCF::getUser()->userID, WCF::getSession()->getVar('disclaimerAccepted'), TIME_NOW ]);
-	}
+class RegisterFormSavedTermsOfUseListener implements IParameterizedEventListener
+{
+    /**
+     * @inheritDoc
+     * @param RegisterForm $eventObj
+     */
+    public function execute($eventObj, $className, $eventName, array &$parameters)
+    {
+        $sql = "INSERT INTO wcf" . WCF_N . "_termsofuse_revision_to_user
+                            (userID, revisionID, acceptedAt)
+                VALUES      (?, ?, ?)";
+        $statement = WCF::getDB()->prepareStatement($sql);
+        $statement->execute([
+            WCF::getUser()->userID,
+            WCF::getSession()->getVar('disclaimerAccepted'),
+            TIME_NOW,
+        ]);
+    }
 }

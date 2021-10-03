@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2017, Tim Düsterhus
  *
@@ -18,12 +19,15 @@
 
 namespace wcf\data\termsofuse\revision;
 
+use wcf\data\DatabaseObjectEditor;
+
 /**
  * Represents a terms of use revision editor.
  */
-class TermsofuseRevisionEditor extends \wcf\data\DatabaseObjectEditor {
-	/**
-	 * @inheritDoc
-	 */
-	protected static $baseClass = TermsofuseRevision::class;
+class TermsofuseRevisionEditor extends DatabaseObjectEditor
+{
+    /**
+     * @inheritDoc
+     */
+    protected static $baseClass = TermsofuseRevision::class;
 }

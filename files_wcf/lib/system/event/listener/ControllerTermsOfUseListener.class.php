@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2017, Tim Düsterhus
  *
@@ -18,37 +19,50 @@
 
 namespace wcf\system\event\listener;
 
-use \wcf\action\AbstractAction;
-use \wcf\data\termsofuse\revision\TermsofuseRevision;
-use \wcf\page\AbstractPage;
-use \wcf\system\exception\AJAXException;
-use \wcf\system\request\LinkHandler;
-use \wcf\system\request\RequestHandler;
-use \wcf\system\WCF;
-use \wcf\util\HeaderUtil;
+use wcf\action\AbstractAction;
+use wcf\data\termsofuse\revision\TermsofuseRevision;
+use wcf\page\AbstractPage;
+use wcf\system\exception\AJAXException;
+use wcf\system\request\LinkHandler;
+use wcf\system\request\RequestHandler;
+use wcf\system\WCF;
+use wcf\util\HeaderUtil;
 
 /**
  * Forces re-acceptance of newer terms of use.
  */
-class ControllerTermsOfUseListener implements IParameterizedEventListener {
-	/**
-	 * @inheritDoc
-	 * @param AbstractPage|AbstractAction $eventObj
-	 */
-	public function execute($eventObj, $className, $eventName, array &$parameters) {
-		if (!WCF::getUser()->userID) return;
-		$active = TermsofuseRevision::getActiveRevision();
-		if ($active === null) return;
-		if ($active->hasAccepted(WCF::getUser()) !== false) return;
+class ControllerTermsOfUseListener implements IParameterizedEventListener
+{
+    /**
+     * @inheritDoc
+     * @param AbstractPage|AbstractAction $eventObj
+     */
+    public function execute($eventObj, $className, $eventName, array &$parameters)
+    {
+        if (!WCF::getUser()->userID) {
+            return;
+        }
+        $active = TermsofuseRevision::getActiveRevision();
+        if ($active === null) {
+            return;
+        }
+        if ($active->hasAccepted(WCF::getUser()) !== false) {
+            return;
+        }
 
-		if (RequestHandler::getInstance()->getActiveRequest()->isAvailableDuringOfflineMode()) return;
-		
-		if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && ($_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest')) {
-			throw new AJAXException(WCF::getLanguage()->getDynamicVariable('wcf.ajax.error.permissionDenied'), AJAXException::INSUFFICIENT_PERMISSIONS);
-		}
-		else {
-			HeaderUtil::redirect(LinkHandler::getInstance()->getLink('TermsOfUse'));
-			exit;
-		}
-	}
+        if (RequestHandler::getInstance()->getActiveRequest()->isAvailableDuringOfflineMode()) {
+            return;
+        }
+
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && ($_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest')) {
+            throw new AJAXException(
+                WCF::getLanguage()->getDynamicVariable('wcf.ajax.error.permissionDenied'),
+                AJAXException::INSUFFICIENT_PERMISSIONS
+            );
+        } else {
+            HeaderUtil::redirect(LinkHandler::getInstance()->getLink('TermsOfUse'));
+
+            exit;
+        }
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2017, Tim Düsterhus
  *
@@ -18,37 +19,44 @@
 
 namespace wcf\acp\page;
 
+use wcf\data\termsofuse\revision\TermsofuseRevisionList;
+
 /**
  * Shows the revision list.
  */
-class TermsOfUseRevisionListPage extends \wcf\page\SortablePage {
-	/**
-	 * @inheritDoc
-	 */
-	public $activeMenuItem = 'wcf.acp.menu.link.termsOfUse.revision.list';
+class TermsOfUseRevisionListPage extends \wcf\page\SortablePage
+{
+    /**
+     * @inheritDoc
+     */
+    public $activeMenuItem = 'wcf.acp.menu.link.termsOfUse.revision.list';
 
-	/**
-	 * @inheritDoc
-	 */
-	public $neededPermissions = [ 'admin.content.canManageTermsOfUse' ];
+    /**
+     * @inheritDoc
+     */
+    public $neededPermissions = [ 'admin.content.canManageTermsOfUse' ];
 
-	/**
-	 * @inheritDoc
-	 */
-	public $objectListClassName = \wcf\data\termsofuse\revision\TermsofuseRevisionList::class;
+    /**
+     * @inheritDoc
+     */
+    public $objectListClassName = TermsofuseRevisionList::class;
 
-	/**
-	 * @inheritDoc
-	 */
-	public $validSortFields = [ 'revisionID', 'createdAt', 'enabledAt' ];
+    /**
+     * @inheritDoc
+     */
+    public $validSortFields = [
+        'revisionID',
+        'createdAt',
+        'enabledAt',
+    ];
 
-	/**
-	 * @inheritDoc
-	 */
-	public $defaultSortField = 'createdAt';
+    /**
+     * @inheritDoc
+     */
+    public $defaultSortField = 'createdAt';
 
-	/**
-	 * @inheritDoc
-	 */
-	public $defaultSortOrder = 'DESC';
+    /**
+     * @inheritDoc
+     */
+    public $defaultSortOrder = 'DESC';
 }

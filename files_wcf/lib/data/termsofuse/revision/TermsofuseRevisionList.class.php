@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2017, Tim Düsterhus
  *
@@ -18,12 +19,15 @@
 
 namespace wcf\data\termsofuse\revision;
 
+use wcf\data\DatabaseObjectList;
+
 /**
  * Represents a list of terms of use revisions.
  */
-class TermsofuseRevisionList extends \wcf\data\DatabaseObjectList {
-	/**
-	 * @inheritDoc
-	 */
-	public $sqlOrderBy = 'revisionID DESC';
+class TermsofuseRevisionList extends DatabaseObjectList
+{
+    /**
+     * @inheritDoc
+     */
+    public $sqlOrderBy = 'revisionID DESC';
 }

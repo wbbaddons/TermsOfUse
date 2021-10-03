@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2017, Tim Düsterhus
  *
@@ -18,23 +19,29 @@
 
 namespace wcf\system\event\listener;
 
-use \wcf\form\DisclaimerForm;
-use \wcf\system\request\LinkHandler;
-use \wcf\system\WCF;
-use \wcf\util\HeaderUtil;
+use wcf\form\DisclaimerForm;
+use wcf\system\request\LinkHandler;
+use wcf\system\WCF;
+use wcf\util\HeaderUtil;
 
 /**
  * Intercepts requests to the DisclaimerForm.
  */
-class DisclaimerFormReadParametersTermsOfUseListener implements IParameterizedEventListener {
-	/**
-	 * @inheritDoc
-	 * @param DisclaimerForm $eventObj
-	 */
-	public function execute($eventObj, $className, $eventName, array &$parameters) {
-		WCF::getSession()->register('termsOfUseRegister', 1);
-		
-		HeaderUtil::redirect(LinkHandler::getInstance()->getLink('TermsOfUse'));
-		exit;
-	}
+class DisclaimerFormReadParametersTermsOfUseListener implements IParameterizedEventListener
+{
+    /**
+     * @inheritDoc
+     * @param DisclaimerForm $eventObj
+     */
+    public function execute($eventObj, $className, $eventName, array &$parameters)
+    {
+        WCF::getSession()->register(
+            'termsOfUseRegister',
+            1
+        );
+
+        HeaderUtil::redirect(LinkHandler::getInstance()->getLink('TermsOfUse'));
+
+        exit;
+    }
 }

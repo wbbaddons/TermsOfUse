@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2017, Tim Düsterhus
  *
@@ -18,194 +19,211 @@
 
 namespace wcf\data\termsofuse\revision;
 
-use \wcf\system\WCF;
+use wcf\data\DatabaseObject;
+use wcf\data\language\Language;
+use wcf\system\html\output\HtmlOutputProcessor;
+use wcf\system\message\embedded\object\MessageEmbeddedObjectManager;
+use wcf\system\WCF;
 
 /**
  * Represents a terms of use revision.
  */
-final class TermsofuseRevision extends \wcf\data\DatabaseObject {
-	/**
-	 * contents by language
-	 * @var string[]
-	 */
-	protected $content = null;
-	
-	/**
-	 * output processor to use
-	 * @var \wcf\system\html\output\HtmlOutputProcessor
-	 */
-	protected $outputProcessor = null;
-	
-	/**
-	 * the revision that is currently active
-	 * @var \wcf\data\termsofuse\revision\TermsofuseRevision
-	 */
-	protected static $activeRevision = false;
-	
-	/**
-	 * the latest draft
-	 * @var \wcf\data\termsofuse\revision\TermsofuseRevision
-	 */
-	protected static $latestDraft = false;
-	
-	/**
-	 * Returns the revision most recently enabled, null
-	 * if there is no such revision.
-	 *
-	 * @return \wcf\data\termsofuse\revision\TermsofuseRevision
-	 */
-	 public static function getActiveRevision($skipCache = false) {
-		if (self::$activeRevision === false || $skipCache) {
-			$sql = "SELECT   *
-				FROM     wcf".WCF_N."_termsofuse_revision
-				WHERE    enabledAt IS NOT NULL
-				ORDER BY createdAt DESC";
-			$statement = WCF::getDB()->prepareStatement($sql, 1);
-			$statement->execute();
-			$row = $statement->fetchArray();
-			
-			if ($row === false) {
-				self::$activeRevision = null;
-			}
-			else {
-				self::$activeRevision = new static(null, $row);
-			}
-		}
-		
-		return self::$activeRevision;
-	}
-	
-	/**
-	 * Returns most recent draft newer than the active revision.
-	 *
-	 * @return \wcf\data\termsofuse\revision\TermsofuseRevision
-	 */
-	public static function getLatestDraft($skipCache = false) {
-		if (self::$latestDraft === false || $skipCache) {
-			$sql = "SELECT   *
-				FROM     wcf".WCF_N."_termsofuse_revision
-				WHERE    enabledAt IS NULL
-				ORDER BY createdAt DESC";
-			$statement = WCF::getDB()->prepareStatement($sql, 1);
-			$statement->execute();
-			$row = $statement->fetchArray();
-			
-			if ($row === false) {
-				self::$latestDraft = null;
-			}
-			else {
-				self::$latestDraft = new static(null, $row);
-			}
-		}
-		
-		return self::$latestDraft;
-	}
-	
-	/**
-	 * Returns whether this revision was enabled.
-	 *
-	 * @return bool
-	 */
-	public function isActive() {
-		return $this->enabledAt !== null;
-	}
-	
-	/**
-	 * Returns whether this revision is more recent than the active revision.
-	 *
-	 * @return bool
-	 */
-	public function isNewerThanActive($skipCache = false) {
-		$active = TermsofuseRevision::getActiveRevision($skipCache);
-		if ($active === null) return true;
+final class TermsofuseRevision extends DatabaseObject
+{
+    /**
+     * contents by language
+     * @var string[]
+     */
+    protected $content;
 
-		return $this->createdAt > $active->createdAt;
-	}
-	
-	/**
-	 * Returns whether this revision is outdated.
-	 * For drafts it returns whether it is the latest draft.
-	 * For non-drafts it returns whether it is the currently active revision.
-	 *
-	 * @return bool
-	 */
-	public function isOutdated() {
-		if ($this->isActive()) {
-			return $this->revisionID !== static::getActiveRevision()->revisionID;
-		}
-		else {
-			return $this->revisionID !== static::getLatestDraft()->revisionID;
-		}
-	}
-	
-	/**
-	 * Returns whether the given user has accepted this revision. Throws
-	 * if this revision is outdated.
-	 *
-	 * @return bool
-	 */
-	public function hasAccepted(\wcf\data\user\User $user) {
-		$sql = "SELECT  acceptedAt
-		        FROM    wcf".WCF_N."_termsofuse_revision_to_user
-		        WHERE       revisionID = ?
-		                AND userID = ?";
-		$statement = WCF::getDB()->prepareStatement($sql);
-		$statement->execute([ $this->revisionID, WCF::getUser()->userID ]);
-		return $statement->fetchColumn();
-	}
-	
-	/**
-	 * Returns the content for the given Language or null
-	 * if there is no version for the given language.
-	 *
-	 * @param  \wcf\data\language\Language $language
-	 * @param  boolean                     $raw
-	 * @return string[]
-	 */
-	public function getContent(\wcf\data\language\Language $language, $raw = false) {
-		if ($this->content === null) {
-			$sql = "SELECT *
-			        FROM   wcf".WCF_N."_termsofuse_revision_content
-			        WHERE  revisionID = ?";
-			$statement = WCF::getDB()->prepareStatement($sql);
-			$statement->execute([ $this->revisionID ]);
-			$this->content = [ ];
-			while (($row = $statement->fetchArray())) {
-				$this->content[$row['languageID']] = $row;
-			}
-			
-			$contentIDs = array_map(function (array $row) {
-				return $row['contentID'];
-			}, array_filter($this->content, function (array $row) {
-				return $row['hasEmbeddedObjects'];
-			}));
-			
-			if (!empty($contentIDs)) {
-				\wcf\system\message\embedded\object\MessageEmbeddedObjectManager::getInstance()->loadObjects('be.bastelstu.termsOfUse', $contentIDs);
-			}
-		}
-		
-		if (isset($this->content[$language->languageID])) {
-			if ($raw) {
-				return $this->content[$language->languageID]['content'];
-			}
-			$this->getOutputProcessor()->process($this->content[$language->languageID]['content'], 'be.bastelstu.termsOfUse', $this->content[$language->languageID]['contentID']);
-			return $this->getOutputProcessor()->getHtml();
-		}
-		
-		return null;
-	}
+    /**
+     * output processor to use
+     * @var HtmlOutputProcessor
+     */
+    protected $outputProcessor;
 
-	/**
-	 * Returns the output processor to use.
-	 *
-	 * @return \wcf\system\html\output\HtmlOutputProcessor
-	 */
-	public function getOutputProcessor() {
-		if ($this->outputProcessor === null) {
-			$this->outputProcessor = new \wcf\system\html\output\HtmlOutputProcessor();
-		}
-		
-		return $this->outputProcessor;
-	}
+    /**
+     * the revision that is currently active
+     * @var \wcf\data\termsofuse\revision\TermsofuseRevision
+     */
+    protected static $activeRevision = false;
+
+    /**
+     * the latest draft
+     * @var \wcf\data\termsofuse\revision\TermsofuseRevision
+     */
+    protected static $latestDraft = false;
+
+    /**
+     * Returns the revision most recently enabled, null
+     * if there is no such revision.
+     *
+     * @return \wcf\data\termsofuse\revision\TermsofuseRevision
+     */
+    public static function getActiveRevision($skipCache = false)
+    {
+        if (self::$activeRevision === false || $skipCache) {
+            $sql = "SELECT      *
+                    FROM        wcf" . WCF_N . "_termsofuse_revision
+                    WHERE       enabledAt IS NOT NULL
+                    ORDER BY    createdAt DESC";
+            $statement = WCF::getDB()->prepareStatement($sql, 1);
+            $statement->execute();
+            $row = $statement->fetchArray();
+
+            if ($row === false) {
+                self::$activeRevision = null;
+            } else {
+                self::$activeRevision = new static(null, $row);
+            }
+        }
+
+        return self::$activeRevision;
+    }
+
+    /**
+     * Returns most recent draft newer than the active revision.
+     *
+     * @return \wcf\data\termsofuse\revision\TermsofuseRevision
+     */
+    public static function getLatestDraft($skipCache = false)
+    {
+        if (self::$latestDraft === false || $skipCache) {
+            $sql = "SELECT      *
+                    FROM        wcf" . WCF_N . "_termsofuse_revision
+                    WHERE       enabledAt IS NULL
+                    ORDER BY    createdAt DESC";
+            $statement = WCF::getDB()->prepareStatement($sql, 1);
+            $statement->execute();
+            $row = $statement->fetchArray();
+
+            if ($row === false) {
+                self::$latestDraft = null;
+            } else {
+                self::$latestDraft = new static(null, $row);
+            }
+        }
+
+        return self::$latestDraft;
+    }
+
+    /**
+     * Returns whether this revision was enabled.
+     *
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->enabledAt !== null;
+    }
+
+    /**
+     * Returns whether this revision is more recent than the active revision.
+     *
+     * @return bool
+     */
+    public function isNewerThanActive($skipCache = false)
+    {
+        $active = self::getActiveRevision($skipCache);
+        if ($active === null) {
+            return true;
+        }
+
+        return $this->createdAt > $active->createdAt;
+    }
+
+    /**
+     * Returns whether this revision is outdated.
+     * For drafts it returns whether it is the latest draft.
+     * For non-drafts it returns whether it is the currently active revision.
+     *
+     * @return bool
+     */
+    public function isOutdated()
+    {
+        if ($this->isActive()) {
+            return $this->revisionID !== static::getActiveRevision()->revisionID;
+        } else {
+            return $this->revisionID !== static::getLatestDraft()->revisionID;
+        }
+    }
+
+    /**
+     * Returns whether the given user has accepted this revision. Throws
+     * if this revision is outdated.
+     *
+     * @return bool
+     */
+    public function hasAccepted(\wcf\data\user\User $user)
+    {
+        $sql = "SELECT  acceptedAt
+                FROM    wcf" . WCF_N . "_termsofuse_revision_to_user
+                WHERE       revisionID = ?
+                        AND userID = ?";
+        $statement = WCF::getDB()->prepareStatement($sql);
+        $statement->execute([ $this->revisionID, WCF::getUser()->userID ]);
+
+        return $statement->fetchColumn();
+    }
+
+    /**
+     * Returns the content for the given Language or null
+     * if there is no version for the given language.
+     *
+     * @param  boolean                     $raw
+     * @return string[]
+     */
+    public function getContent(Language $language, $raw = false)
+    {
+        if ($this->content === null) {
+            $sql = "SELECT  *
+                    FROM    wcf" . WCF_N . "_termsofuse_revision_content
+                    WHERE   revisionID = ?";
+            $statement = WCF::getDB()->prepareStatement($sql);
+            $statement->execute([ $this->revisionID ]);
+            $this->content = [ ];
+            while (($row = $statement->fetchArray())) {
+                $this->content[$row['languageID']] = $row;
+            }
+
+            $contentIDs = \array_map(static function (array $row) {
+                return $row['contentID'];
+            }, \array_filter($this->content, static function (array $row) {
+                return $row['hasEmbeddedObjects'];
+            }));
+
+            if (!empty($contentIDs)) {
+                MessageEmbeddedObjectManager::getInstance()->loadObjects('be.bastelstu.termsOfUse', $contentIDs);
+            }
+        }
+
+        if (isset($this->content[$language->languageID])) {
+            if ($raw) {
+                return $this->content[$language->languageID]['content'];
+            }
+            $this->getOutputProcessor()->process(
+                $this->content[$language->languageID]['content'],
+                'be.bastelstu.termsOfUse',
+                $this->content[$language->languageID]['contentID']
+            );
+
+            return $this->getOutputProcessor()->getHtml();
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the output processor to use.
+     *
+     * @return \wcf\system\html\output\HtmlOutputProcessor
+     */
+    public function getOutputProcessor()
+    {
+        if ($this->outputProcessor === null) {
+            $this->outputProcessor = new HtmlOutputProcessor();
+        }
+
+        return $this->outputProcessor;
+    }
 }

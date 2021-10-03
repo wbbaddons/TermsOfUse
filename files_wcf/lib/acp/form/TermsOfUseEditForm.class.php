@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2017, Tim Düsterhus
  *
@@ -18,128 +19,146 @@
 
 namespace wcf\acp\form;
 
-use \wcf\data\termsofuse\revision\TermsofuseRevision;
-use \wcf\data\termsofuse\revision\TermsofuseRevisionAction;
-use \wcf\system\exception\UserInputException;
-use \wcf\system\html\input\HtmlInputProcessor;
-use \wcf\system\language\LanguageFactory;
-use \wcf\system\WCF;
+use wcf\data\termsofuse\revision\TermsofuseRevision;
+use wcf\data\termsofuse\revision\TermsofuseRevisionAction;
+use wcf\system\exception\UserInputException;
+use wcf\system\html\input\HtmlInputProcessor;
+use wcf\system\language\LanguageFactory;
+use wcf\system\WCF;
+use wcf\util\ArrayUtil;
 
 /**
  * Shows the terms of use edit form.
  */
-class TermsOfUseEditForm extends \wcf\form\AbstractForm {
-	/**
-	 * @inheritDoc
-	 */
-	public $templateName = 'termsOfUseEdit';
+class TermsOfUseEditForm extends \wcf\form\AbstractForm
+{
+    /**
+     * @inheritDoc
+     */
+    public $templateName = 'termsOfUseEdit';
 
-	/**
-	 * @inheritDoc
-	 */
-	public $activeMenuItem = 'wcf.acp.menu.link.termsOfUse.edit';
+    /**
+     * @inheritDoc
+     */
+    public $activeMenuItem = 'wcf.acp.menu.link.termsOfUse.edit';
 
-	/**
-	 * @inheritDoc
-	 */
-	public $neededPermissions = [ 'admin.content.canManageTermsOfUse' ];
+    /**
+     * @inheritDoc
+     */
+    public $neededPermissions = [ 'admin.content.canManageTermsOfUse' ];
 
-	/**
-	 * list of available languages
-	 * @var \wcf\data\language\Language[]
-	 */
-	public $availableLanguages = [ ];
+    /**
+     * list of available languages
+     * @var \wcf\data\language\Language[]
+     */
+    public $availableLanguages = [ ];
 
-	/**
-	 * array of texts for the different languages
-	 * @var string[]
-	 */
-	public $content = [ ];
+    /**
+     * array of texts for the different languages
+     * @var string[]
+     */
+    public $content = [ ];
 
-	/**
-	 * @var \wcf\system\html\input\HtmlInputProcessor[]
-	 */
-	public $htmlInputProcessors = [ ];
-	
-	/**
-	 * revision being preloaded into the form
-	 * @var \wcf\data\termsofuse\revision\TermsofuseRevision
-	 */
-	public $revision = null;
+    /**
+     * @var \wcf\system\html\input\HtmlInputProcessor[]
+     */
+    public $htmlInputProcessors = [ ];
 
-	/**
-	 * @inheritDoc
-	 */
-	public function readData() {
-		$this->availableLanguages = LanguageFactory::getInstance()->getLanguages();
+    /**
+     * revision being preloaded into the form
+     * @var \wcf\data\termsofuse\revision\TermsofuseRevision
+     */
+    public $revision;
 
-		parent::readData();
+    /**
+     * @inheritDoc
+     */
+    public function readData()
+    {
+        $this->availableLanguages = LanguageFactory::getInstance()->getLanguages();
 
-		$draft = TermsofuseRevision::getLatestDraft(true);
-		$active = TermsofuseRevision::getActiveRevision(true);
-		if ($draft->isNewerThanActive()) {
-			$this->revision = $draft;
-		}
-		else {
-			$this->revision = $active;
-		}
-	}
+        parent::readData();
 
-	/**
-	 * @inheritDoc
-	 */
-	public function readFormParameters() {
-		parent::readFormParameters();
+        $draft = TermsofuseRevision::getLatestDraft(true);
+        $active = TermsofuseRevision::getActiveRevision(true);
+        if ($draft->isNewerThanActive()) {
+            $this->revision = $draft;
+        } else {
+            $this->revision = $active;
+        }
+    }
 
-		if (isset($_POST['content']) && is_array($_POST['content'])) $this->content = \wcf\util\ArrayUtil::trim($_POST['content']);
+    /**
+     * @inheritDoc
+     */
+    public function readFormParameters()
+    {
+        parent::readFormParameters();
 
-		foreach (LanguageFactory::getInstance()->getLanguages() as $language) {
-			$this->htmlInputProcessors[$language->languageID] = new HtmlInputProcessor();
-			$this->htmlInputProcessors[$language->languageID]->process((!empty($this->content[$language->languageID]) ? $this->content[$language->languageID] : ''), 'be.bastelstu.termsOfUse');
-		}
-	}
+        if (isset($_POST['content']) && \is_array($_POST['content'])) {
+            $this->content = ArrayUtil::trim($_POST['content']);
+        }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function validate() {
-		parent::validate();
+        foreach (LanguageFactory::getInstance()->getLanguages() as $language) {
+            $this->htmlInputProcessors[$language->languageID] = new HtmlInputProcessor();
+            $this->htmlInputProcessors[$language->languageID]->process(
+                (!empty($this->content[$language->languageID]) ? $this->content[$language->languageID] : ''),
+                'be.bastelstu.termsOfUse'
+            );
+        }
+    }
 
-		foreach ($this->htmlInputProcessors as $languageID => $processor) {
-			$processor->validate();
-			if ($processor->appearsToBeEmpty()) {
-				throw new UserInputException('content'.$languageID);
-			}
-		}
-	}
+    /**
+     * @inheritDoc
+     */
+    public function validate()
+    {
+        parent::validate();
 
-	/**
-	 * @inheritDoc
-	 */
-	public function save() {
-		parent::save();
+        foreach ($this->htmlInputProcessors as $languageID => $processor) {
+            $processor->validate();
+            if ($processor->appearsToBeEmpty()) {
+                throw new UserInputException('content' . $languageID);
+            }
+        }
+    }
 
-		$data = [ 'createdAt' => TIME_NOW ];
-		$this->objectAction = new TermsofuseRevisionAction([ ], 'create', [ 'data' => array_merge($this->additionalFields, $data)
-		                                                                  , 'content' => $this->htmlInputProcessors
-		                                                                  ]);
-		$returnValues = $this->objectAction->executeAction();
-		
-		$this->saved();
+    /**
+     * @inheritDoc
+     */
+    public function save()
+    {
+        parent::save();
 
-		// show success message
-		WCF::getTPL()->assign('success', true);
-	}
+        $data = [ 'createdAt' => TIME_NOW ];
+        $this->objectAction = new TermsofuseRevisionAction(
+            [ ],
+            'create',
+            [
+                'data' => \array_merge(
+                    $this->additionalFields,
+                    $data
+                ),
+                'content' => $this->htmlInputProcessors,
+            ]
+        );
+        $returnValues = $this->objectAction->executeAction();
 
-	/**
-	 * @inheritDoc
-	 */
-	public function assignVariables() {
-		parent::assignVariables();
+        $this->saved();
 
-		WCF::getTPL()->assign([ 'availableLanguages' => $this->availableLanguages
-		                      , 'revision'           => $this->revision
-		                      ]);
-	}
+        // show success message
+        WCF::getTPL()->assign('success', true);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function assignVariables()
+    {
+        parent::assignVariables();
+
+        WCF::getTPL()->assign([
+            'availableLanguages' => $this->availableLanguages, 'revision' => $this->revision,
+        ]);
+    }
 }
-
