@@ -61,10 +61,10 @@ final class TermsofuseRevision extends DatabaseObject
     {
         if (self::$activeRevision === false || $skipCache) {
             $sql = "SELECT      *
-                    FROM        wcf" . WCF_N . "_termsofuse_revision
+                    FROM        wcf1_termsofuse_revision
                     WHERE       enabledAt IS NOT NULL
                     ORDER BY    createdAt DESC";
-            $statement = WCF::getDB()->prepareStatement($sql, 1);
+            $statement = WCF::getDB()->prepare($sql, 1);
             $statement->execute();
             $row = $statement->fetchArray();
 
@@ -87,10 +87,10 @@ final class TermsofuseRevision extends DatabaseObject
     {
         if (self::$latestDraft === false || $skipCache) {
             $sql = "SELECT      *
-                    FROM        wcf" . WCF_N . "_termsofuse_revision
+                    FROM        wcf1_termsofuse_revision
                     WHERE       enabledAt IS NULL
                     ORDER BY    createdAt DESC";
-            $statement = WCF::getDB()->prepareStatement($sql, 1);
+            $statement = WCF::getDB()->prepare($sql, 1);
             $statement->execute();
             $row = $statement->fetchArray();
 
@@ -145,10 +145,10 @@ final class TermsofuseRevision extends DatabaseObject
     public function hasAccepted(User $user): bool
     {
         $sql = "SELECT  acceptedAt
-                FROM    wcf" . WCF_N . "_termsofuse_revision_to_user
+                FROM    wcf1_termsofuse_revision_to_user
                 WHERE       revisionID = ?
                         AND userID = ?";
-        $statement = WCF::getDB()->prepareStatement($sql);
+        $statement = WCF::getDB()->prepare($sql);
         $statement->execute([
             $this->revisionID,
             $user->userID,
@@ -165,10 +165,13 @@ final class TermsofuseRevision extends DatabaseObject
     {
         if ($this->content === null) {
             $sql = "SELECT  *
-                    FROM    wcf" . WCF_N . "_termsofuse_revision_content
+                    FROM    wcf1_termsofuse_revision_content
                     WHERE   revisionID = ?";
-            $statement = WCF::getDB()->prepareStatement($sql);
-            $statement->execute([ $this->revisionID ]);
+            $statement = WCF::getDB()->prepare($sql);
+            $statement->execute([
+                $this->revisionID,
+            ]);
+
             $this->content = [ ];
             while (($row = $statement->fetchArray())) {
                 $this->content[$row['languageID']] = $row;

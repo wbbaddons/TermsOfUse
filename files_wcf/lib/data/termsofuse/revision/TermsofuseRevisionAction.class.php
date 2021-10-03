@@ -52,14 +52,16 @@ class TermsofuseRevisionAction extends \wcf\data\AbstractDatabaseObjectAction im
         WCF::getDB()->beginTransaction();
         $result = parent::create();
 
-        $sql = "INSERT INTO wcf" . WCF_N . "_termsofuse_revision_content
+        $sql = "INSERT INTO wcf1_termsofuse_revision_content
                             (revisionID, languageID, content)
                 VALUES      (?, ?, ?)";
-        $insertStatement = WCF::getDB()->prepareStatement($sql);
-        $sql = "UPDATE  wcf" . WCF_N . "_termsofuse_revision_content
+        $insertStatement = WCF::getDB()->prepare($sql);
+
+        $sql = "UPDATE  wcf1_termsofuse_revision_content
                 SET     hasEmbeddedObjects = ?
                 WHERE   contentID = ?";
-        $updateStatement = WCF::getDB()->prepareStatement($sql);
+        $updateStatement = WCF::getDB()->prepare($sql);
+
         foreach ($this->parameters['content'] as $languageID => $processor) {
             $insertStatement->execute([ $result->revisionID, $languageID, $processor->getHtml() ]);
             $contentID = WCF::getDB()->getInsertID(

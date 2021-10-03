@@ -41,10 +41,10 @@ class RegisterFormSavedTermsOfUseListener implements IParameterizedEventListener
 
                 return;
             case 'saved':
-                $sql = "INSERT INTO wcf" . WCF_N . "_termsofuse_revision_to_user
+                $sql = "INSERT INTO wcf1_termsofuse_revision_to_user
                                     (userID, revisionID, acceptedAt)
                         VALUES      (?, ?, ?)";
-                $statement = WCF::getDB()->prepareStatement($sql);
+                $statement = WCF::getDB()->prepare($sql);
                 $statement->execute([
                     WCF::getUser()->userID,
                     $this->revisionID,
