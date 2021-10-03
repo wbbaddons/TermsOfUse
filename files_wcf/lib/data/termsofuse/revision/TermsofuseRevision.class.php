@@ -57,10 +57,8 @@ final class TermsofuseRevision extends DatabaseObject
     /**
      * Returns the revision most recently enabled, null
      * if there is no such revision.
-     *
-     * @return \wcf\data\termsofuse\revision\TermsofuseRevision
      */
-    public static function getActiveRevision($skipCache = false)
+    public static function getActiveRevision(bool $skipCache = false): ?TermsofuseRevision
     {
         if (self::$activeRevision === false || $skipCache) {
             $sql = "SELECT      *
@@ -109,20 +107,16 @@ final class TermsofuseRevision extends DatabaseObject
 
     /**
      * Returns whether this revision was enabled.
-     *
-     * @return bool
      */
-    public function isActive()
+    public function isActive(): bool
     {
         return $this->enabledAt !== null;
     }
 
     /**
      * Returns whether this revision is more recent than the active revision.
-     *
-     * @return bool
      */
-    public function isNewerThanActive($skipCache = false)
+    public function isNewerThanActive($skipCache = false): bool
     {
         $active = self::getActiveRevision($skipCache);
         if ($active === null) {
@@ -136,10 +130,8 @@ final class TermsofuseRevision extends DatabaseObject
      * Returns whether this revision is outdated.
      * For drafts it returns whether it is the latest draft.
      * For non-drafts it returns whether it is the currently active revision.
-     *
-     * @return bool
      */
-    public function isOutdated()
+    public function isOutdated(): bool
     {
         if ($this->isActive()) {
             return $this->revisionID !== static::getActiveRevision()->revisionID;
@@ -215,10 +207,8 @@ final class TermsofuseRevision extends DatabaseObject
 
     /**
      * Returns the output processor to use.
-     *
-     * @return \wcf\system\html\output\HtmlOutputProcessor
      */
-    public function getOutputProcessor()
+    public function getOutputProcessor(): HtmlOutputProcessor
     {
         if ($this->outputProcessor === null) {
             $this->outputProcessor = new HtmlOutputProcessor();
