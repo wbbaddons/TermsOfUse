@@ -21,6 +21,7 @@ namespace wcf\data\termsofuse\revision;
 
 use wcf\data\DatabaseObject;
 use wcf\data\language\Language;
+use wcf\data\user\User;
 use wcf\system\html\output\HtmlOutputProcessor;
 use wcf\system\message\embedded\object\MessageEmbeddedObjectManager;
 use wcf\system\WCF;
@@ -146,14 +147,14 @@ final class TermsofuseRevision extends DatabaseObject
      *
      * @return bool
      */
-    public function hasAccepted(\wcf\data\user\User $user)
+    public function hasAccepted(User $user)
     {
         $sql = "SELECT  acceptedAt
                 FROM    wcf" . WCF_N . "_termsofuse_revision_to_user
                 WHERE       revisionID = ?
                         AND userID = ?";
         $statement = WCF::getDB()->prepareStatement($sql);
-        $statement->execute([ $this->revisionID, WCF::getUser()->userID ]);
+        $statement->execute([ $this->revisionID, $user->userID ]);
 
         return $statement->fetchColumn();
     }
