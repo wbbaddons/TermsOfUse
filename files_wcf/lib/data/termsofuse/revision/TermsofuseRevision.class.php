@@ -176,11 +176,12 @@ final class TermsofuseRevision extends DatabaseObject
                 $this->content[$row['languageID']] = $row;
             }
 
-            $contentIDs = \array_map(static function (array $row) {
-                return $row['contentID'];
-            }, \array_filter($this->content, static function (array $row) {
-                return $row['hasEmbeddedObjects'];
-            }));
+            $contentIDs = \array_column(
+                \array_filter($this->content, static function (array $row) {
+                    return $row['hasEmbeddedObjects'];
+                }),
+                'contentID'
+            );
 
             if (!empty($contentIDs)) {
                 MessageEmbeddedObjectManager::getInstance()->loadObjects('be.bastelstu.termsOfUse', $contentIDs);
