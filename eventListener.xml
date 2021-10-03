@@ -9,7 +9,7 @@
 		</eventlistener>
 		<eventlistener name="afterRegister">
 			<eventclassname>wcf\form\RegisterForm</eventclassname>
-			<eventname>saved</eventname>
+			<eventname>save,saved</eventname>
 			<listenerclassname>wcf\system\event\listener\RegisterFormSavedTermsOfUseListener</listenerclassname>
 			<environment>user</environment>
 		</eventlistener>
