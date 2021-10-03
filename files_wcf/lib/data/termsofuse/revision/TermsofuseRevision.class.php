@@ -32,26 +32,24 @@ use wcf\system\WCF;
 final class TermsofuseRevision extends DatabaseObject
 {
     /**
-     * contents by language
      * @var string[]
      */
     protected $content;
 
     /**
-     * output processor to use
      * @var HtmlOutputProcessor
      */
     protected $outputProcessor;
 
     /**
      * the revision that is currently active
-     * @var \wcf\data\termsofuse\revision\TermsofuseRevision
+     * @var false|TermsofuseRevision
      */
     protected static $activeRevision = false;
 
     /**
      * the latest draft
-     * @var \wcf\data\termsofuse\revision\TermsofuseRevision
+     * @var false|TermsofuseRevision
      */
     protected static $latestDraft = false;
 
@@ -151,7 +149,10 @@ final class TermsofuseRevision extends DatabaseObject
                 WHERE       revisionID = ?
                         AND userID = ?";
         $statement = WCF::getDB()->prepareStatement($sql);
-        $statement->execute([ $this->revisionID, $user->userID ]);
+        $statement->execute([
+            $this->revisionID,
+            $user->userID,
+        ]);
 
         return $statement->fetchColumn() !== false;
     }
@@ -159,11 +160,8 @@ final class TermsofuseRevision extends DatabaseObject
     /**
      * Returns the content for the given Language or null
      * if there is no version for the given language.
-     *
-     * @param  boolean                     $raw
-     * @return string[]
      */
-    public function getContent(Language $language, $raw = false)
+    public function getContent(Language $language, bool $raw = false): string
     {
         if ($this->content === null) {
             $sql = "SELECT  *
@@ -184,7 +182,10 @@ final class TermsofuseRevision extends DatabaseObject
             );
 
             if (!empty($contentIDs)) {
-                MessageEmbeddedObjectManager::getInstance()->loadObjects('be.bastelstu.termsOfUse', $contentIDs);
+                MessageEmbeddedObjectManager::getInstance()->loadObjects(
+                    'be.bastelstu.termsOfUse',
+                    $contentIDs
+                );
             }
         }
 
@@ -192,6 +193,7 @@ final class TermsofuseRevision extends DatabaseObject
             if ($raw) {
                 return $this->content[$language->languageID]['content'];
             }
+
             $this->getOutputProcessor()->process(
                 $this->content[$language->languageID]['content'],
                 'be.bastelstu.termsOfUse',

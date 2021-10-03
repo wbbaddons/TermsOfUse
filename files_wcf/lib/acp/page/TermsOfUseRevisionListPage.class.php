@@ -20,11 +20,12 @@
 namespace wcf\acp\page;
 
 use wcf\data\termsofuse\revision\TermsofuseRevisionList;
+use wcf\page\SortablePage;
 
 /**
  * Shows the revision list.
  */
-class TermsOfUseRevisionListPage extends \wcf\page\SortablePage
+class TermsOfUseRevisionListPage extends SortablePage
 {
     /**
      * @inheritDoc

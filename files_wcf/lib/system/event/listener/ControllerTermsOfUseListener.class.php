@@ -42,7 +42,9 @@ class ControllerTermsOfUseListener implements IParameterizedEventListener
         if (!WCF::getUser()->userID) {
             return;
         }
+
         $active = TermsofuseRevision::getActiveRevision();
+
         if ($active === null) {
             return;
         }

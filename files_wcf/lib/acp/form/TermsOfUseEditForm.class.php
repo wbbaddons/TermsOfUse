@@ -130,7 +130,9 @@ class TermsOfUseEditForm extends \wcf\form\AbstractForm
     {
         parent::save();
 
-        $data = [ 'createdAt' => TIME_NOW ];
+        $data = [
+            'createdAt' => TIME_NOW,
+        ];
         $this->objectAction = new TermsofuseRevisionAction(
             [ ],
             'create',
@@ -142,7 +144,7 @@ class TermsOfUseEditForm extends \wcf\form\AbstractForm
                 'content' => $this->htmlInputProcessors,
             ]
         );
-        $returnValues = $this->objectAction->executeAction();
+        $this->objectAction->executeAction();
 
         $this->saved();
 
@@ -158,7 +160,8 @@ class TermsOfUseEditForm extends \wcf\form\AbstractForm
         parent::assignVariables();
 
         WCF::getTPL()->assign([
-            'availableLanguages' => $this->availableLanguages, 'revision' => $this->revision,
+            'availableLanguages' => $this->availableLanguages,
+            'revision' => $this->revision,
         ]);
     }
 }

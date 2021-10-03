@@ -36,13 +36,11 @@ class TermsOfUseForm extends AbstractForm
 
     /**
      * requested revision
-     * @var int
      */
     public $revisionID = 0;
 
     /**
-     * revision
-     * @var \wcf\data\termsofuse\revision\TermsofuseRevision
+     * @var TermsofuseRevision
      */
     public $revision;
 
@@ -108,7 +106,9 @@ class TermsOfUseForm extends AbstractForm
         if ($this->accept !== null && $this->reject !== null) {
             throw new UserInputException('accept', 'conflict');
         }
+
         $active = TermsofuseRevision::getActiveRevision();
+
         if ($this->accept !== null) {
             if ($this->accept !== $active->revisionID) {
                 throw new UserInputException('accept', 'outdated');
