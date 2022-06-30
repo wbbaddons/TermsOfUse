@@ -141,8 +141,10 @@ final class TermsofuseRevision extends DatabaseObject
 
     /**
      * Returns whether the given user has accepted this revision.
+     * 
+     * @return null|false|int
      */
-    public function hasAccepted(User $user): bool
+    public function hasAccepted(User $user)
     {
         $sql = "SELECT  acceptedAt
                 FROM    wcf1_termsofuse_revision_to_user
@@ -154,7 +156,7 @@ final class TermsofuseRevision extends DatabaseObject
             $user->userID,
         ]);
 
-        return $statement->fetchColumn() !== false;
+        return $statement->fetchColumn();
     }
 
     /**
