@@ -62,7 +62,7 @@ final class ControllerTermsOfUseListener implements IParameterizedEventListener
                 AJAXException::INSUFFICIENT_PERMISSIONS
             );
         } else {
-            HeaderUtil::redirect(LinkHandler::getInstance()->getLink('TermsOfUse'));
+            HeaderUtil::redirect(LinkHandler::getInstance()->getControllerLink(TermsOfUseForm::class));
 
             exit;
         }

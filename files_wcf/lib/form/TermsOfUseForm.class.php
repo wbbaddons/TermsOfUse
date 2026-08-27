@@ -169,7 +169,7 @@ class TermsOfUseForm extends AbstractForm
                     WCF::getSession()->update();
 
                     $this->saved();
-                    HeaderUtil::redirect(LinkHandler::getInstance()->getLink('Register'));
+                    HeaderUtil::redirect(LinkHandler::getInstance()->getControllerLink(RegisterForm::class));
 
                     exit;
                 }
@@ -185,7 +185,7 @@ class TermsOfUseForm extends AbstractForm
                 $this->objectAction->executeAction();
 
                 HeaderUtil::delayedRedirect(
-                    LinkHandler::getInstance()->getLink('TermsOfUse'),
+                    LinkHandler::getInstance()->getLink(TermsOfUseForm::class),
                     WCF::getLanguage()->getDynamicVariable('wcf.termsOfUse.reject.success')
                 );
 

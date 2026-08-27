@@ -20,6 +20,7 @@
 namespace wcf\system\event\listener;
 
 use wcf\form\DisclaimerForm;
+use wcf\form\TermsOfUseForm;
 use wcf\system\request\LinkHandler;
 use wcf\system\WCF;
 use wcf\util\HeaderUtil;
@@ -40,7 +41,7 @@ final class DisclaimerFormReadParametersTermsOfUseListener implements IParameter
             1
         );
 
-        HeaderUtil::redirect(LinkHandler::getInstance()->getLink('TermsOfUse'));
+        HeaderUtil::redirect(LinkHandler::getInstance()->getControllerLink(TermsOfUseForm::class));
 
         exit;
     }
