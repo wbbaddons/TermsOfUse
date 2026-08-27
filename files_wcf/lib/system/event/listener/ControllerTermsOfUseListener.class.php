@@ -38,6 +38,7 @@ final class ControllerTermsOfUseListener implements IParameterizedEventListener
      * @inheritDoc
      * @param AbstractPage|AbstractAction $eventObj
      */
+    #[\Override]
     public function execute($eventObj, $className, $eventName, array &$parameters)
     {
         if (!WCF::getUser()->userID) {

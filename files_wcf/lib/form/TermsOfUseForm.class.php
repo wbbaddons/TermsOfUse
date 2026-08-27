@@ -59,6 +59,7 @@ class TermsOfUseForm extends AbstractForm
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function readParameters()
     {
         parent::readParameters();
@@ -84,6 +85,7 @@ class TermsOfUseForm extends AbstractForm
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function readFormParameters()
     {
         parent::readFormParameters();
@@ -99,6 +101,7 @@ class TermsOfUseForm extends AbstractForm
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function validate()
     {
         parent::validate();
@@ -130,6 +133,7 @@ class TermsOfUseForm extends AbstractForm
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function save()
     {
         parent::save();
@@ -204,6 +208,7 @@ class TermsOfUseForm extends AbstractForm
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function assignVariables()
     {
         parent::assignVariables();

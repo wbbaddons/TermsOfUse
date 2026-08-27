@@ -60,6 +60,7 @@ class TermsOfUseRevisionShowPage extends AbstractPage
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function readParameters()
     {
         parent::readParameters();
@@ -76,6 +77,7 @@ class TermsOfUseRevisionShowPage extends AbstractPage
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function readData()
     {
         parent::readData();
@@ -86,6 +88,7 @@ class TermsOfUseRevisionShowPage extends AbstractPage
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function assignVariables()
     {
         parent::assignVariables();

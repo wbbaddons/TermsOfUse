@@ -73,6 +73,7 @@ class TermsOfUseEditForm extends \wcf\form\AbstractForm
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function readData()
     {
         $this->availableLanguages = LanguageFactory::getInstance()->getLanguages();
@@ -91,6 +92,7 @@ class TermsOfUseEditForm extends \wcf\form\AbstractForm
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function readFormParameters()
     {
         parent::readFormParameters();
@@ -111,6 +113,7 @@ class TermsOfUseEditForm extends \wcf\form\AbstractForm
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function validate()
     {
         parent::validate();
@@ -126,6 +129,7 @@ class TermsOfUseEditForm extends \wcf\form\AbstractForm
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function save()
     {
         parent::save();
@@ -155,6 +159,7 @@ class TermsOfUseEditForm extends \wcf\form\AbstractForm
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function assignVariables()
     {
         parent::assignVariables();

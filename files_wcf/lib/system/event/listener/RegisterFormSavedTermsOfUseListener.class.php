@@ -33,6 +33,7 @@ final class RegisterFormSavedTermsOfUseListener implements IParameterizedEventLi
      * @inheritDoc
      * @param RegisterForm $eventObj
      */
+    #[\Override]
     public function execute($eventObj, $className, $eventName, array &$parameters)
     {
         switch ($eventName) {

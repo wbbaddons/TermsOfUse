@@ -34,6 +34,7 @@ final class DisclaimerFormReadParametersTermsOfUseListener implements IParameter
      * @inheritDoc
      * @param DisclaimerForm $eventObj
      */
+    #[\Override]
     public function execute($eventObj, $className, $eventName, array &$parameters)
     {
         WCF::getSession()->register(

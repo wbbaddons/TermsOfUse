@@ -31,6 +31,7 @@ final class UserExportGdprActionTermsOfUseListener implements IParameterizedEven
      * @inheritDoc
      * @param UserExportGdprAction $eventObj
      */
+    #[\Override]
     public function execute($eventObj, $className, $eventName, array &$parameters)
     {
         $sql = "SELECT     revisionID, r.enabledAt, r2u.acceptedAt, rc.content, l.languageCode

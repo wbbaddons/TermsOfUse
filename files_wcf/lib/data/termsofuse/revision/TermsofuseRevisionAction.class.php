@@ -47,6 +47,7 @@ class TermsofuseRevisionAction extends \wcf\data\AbstractDatabaseObjectAction im
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function create()
     {
         WCF::getDB()->beginTransaction();
@@ -84,6 +85,7 @@ class TermsofuseRevisionAction extends \wcf\data\AbstractDatabaseObjectAction im
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function validateUpdate()
     {
         throw new PermissionDeniedException();
@@ -92,6 +94,7 @@ class TermsofuseRevisionAction extends \wcf\data\AbstractDatabaseObjectAction im
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function validateDelete()
     {
         throw new PermissionDeniedException();
