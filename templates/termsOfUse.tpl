@@ -36,7 +36,7 @@
 			<form method="post" action="{link controller='TermsOfUse'}{/link}">
 				<button type="submit" class="buttonPrimary" name="accept" value="{$revision->revisionID}">{lang}wcf.termsOfUse.accept{/lang}</button>
 				<button type="submit" name="reject" value="{$revision->revisionID}">{lang}wcf.termsOfUse.reject{/lang}</button>
-				{@SECURITY_TOKEN_INPUT_TAG}
+				{csrfToken}
 			</form>
 		</div>
 	{/if}
