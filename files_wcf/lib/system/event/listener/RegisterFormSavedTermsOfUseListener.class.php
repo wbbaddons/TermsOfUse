@@ -25,7 +25,7 @@ use wcf\system\WCF;
 /**
  * Stores the accepted version of the terms of use after registration.
  */
-class RegisterFormSavedTermsOfUseListener implements IParameterizedEventListener
+final class RegisterFormSavedTermsOfUseListener implements IParameterizedEventListener
 {
     private $revisionID;
 

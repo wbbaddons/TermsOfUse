@@ -25,7 +25,7 @@ use wcf\system\WCF;
 /**
  * Exports dates of term acceptance.
  */
-class UserExportGdprActionTermsOfUseListener implements IParameterizedEventListener
+final class UserExportGdprActionTermsOfUseListener implements IParameterizedEventListener
 {
     /**
      * @inheritDoc

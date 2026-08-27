@@ -27,7 +27,7 @@ use wcf\util\HeaderUtil;
 /**
  * Intercepts requests to the DisclaimerForm.
  */
-class DisclaimerFormReadParametersTermsOfUseListener implements IParameterizedEventListener
+final class DisclaimerFormReadParametersTermsOfUseListener implements IParameterizedEventListener
 {
     /**
      * @inheritDoc

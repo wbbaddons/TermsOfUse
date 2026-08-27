@@ -31,7 +31,7 @@ use wcf\util\HeaderUtil;
 /**
  * Forces re-acceptance of newer terms of use.
  */
-class ControllerTermsOfUseListener implements IParameterizedEventListener
+final class ControllerTermsOfUseListener implements IParameterizedEventListener
 {
     /**
      * @inheritDoc
