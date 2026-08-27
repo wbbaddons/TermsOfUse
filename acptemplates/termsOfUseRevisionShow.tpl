@@ -21,15 +21,5 @@
 	</section>
 {/foreach}
 
-<footer class="contentFooter">
-	<nav class="contentFooterNavigation">
-		<ul>
-			<li><a href="{link controller='TermsOfUseRevisionList' application='wcf'}{/link}" class="button"><span class="icon icon16 fa-list"></span> <span>{lang}wcf.acp.termsOfUse.revision.list{/lang}</span></a></li>
-
-			{event name='contentFooterNavigation'}
-		</ul>
-	</nav>
-</footer>
-
 {include file='footer'}
 
