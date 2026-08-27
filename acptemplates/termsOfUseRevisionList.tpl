@@ -7,7 +7,7 @@
 
 	<nav class="contentHeaderNavigation">
 		<ul>
-			<li><a href="{link controller='TermsOfUseEdit' application='wcf'}{/link}" class="button"><span class="icon icon16 fa-pencil"></span> <span>{lang}wcf.acp.termsOfUse.edit{/lang}</span></a></li>
+			<li><a href="{link controller='TermsOfUseEdit' application='wcf'}{/link}" class="button">{icon name='pencil'} <span>{lang}wcf.acp.termsOfUse.edit{/lang}</span></a></li>
 
 			{event name='contentHeaderNavigation'}
 		</ul>
@@ -38,18 +38,23 @@
 					<tr class="jsRevisionRow jsObjectActionObject" data-object-id="{@$revision->getObjectID()}">
 						<td class="columnIcon">
 							<a href="{link controller='TermsOfUseRevisionShow' id=$revision->revisionID application='wcf'}{/link}" title="{lang}wcf.acp.termsOfUse.show{/lang}" class="jsTooltip">
-								<span class="icon icon16 fa-search"></span>
+								{icon name='search'}
 							</a>
 
-							<span
-								class="
-								icon icon16 {if $revision->enabledAt !== null}fa-check-square-o{else}fa-square-o{/if}
-								{if $revision->isNewerThanActive()}jsObjectAction jsTooltip pointer{else}disabled{/if}
-								"
+							<button
+								type="button"
+								class="{if $revision->isNewerThanActive()}jsObjectAction jsTooltip{/if}"
+								{if !$revision->isNewerThanActive()}disabled{/if}
 								title="{lang}wcf.acp.termsOfUse.enable{/lang}"
 								data-object-action="toggle"
 								data-object-action-success="reload"
-							></span>
+							>
+								{if $revision->enabledAt !== null}
+									{icon name='square-check'}
+								{else}
+									{icon name='square'}
+								{/if}
+							</span>
 
 							{event name='rowButtons'}
 						</td>
@@ -80,7 +85,7 @@
 
 		<nav class="contentFooterNavigation">
 			<ul>
-				<li><a href="{link controller='TermsOfUseEdit' application='wcf'}{/link}" class="button"><span class="icon icon16 fa-pencil"></span> <span>{lang}wcf.acp.termsOfUse.edit{/lang}</span></a></li>
+				<li><a href="{link controller='TermsOfUseEdit' application='wcf'}{/link}" class="button">{icon name='pencil'} <span>{lang}wcf.acp.termsOfUse.edit{/lang}</span></a></li>
 
 				{event name='contentFooterNavigation'}
 			</ul>

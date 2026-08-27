@@ -34,8 +34,8 @@
 	{if ($__wcf->user->userID && !$revision->isOutdated() && $acceptedAt === false) || (!$__wcf->user->userID && $__wcf->session->getVar('termsOfUseRegister'))}
 		<div class="formSubmit">
 			<form method="post" action="{link controller='TermsOfUse'}{/link}">
-				<button type="submit" class="buttonPrimary" name="accept" value="{$revision->revisionID}">{lang}wcf.termsOfUse.accept{/lang}</button>
-				<button type="submit" name="reject" value="{$revision->revisionID}">{lang}wcf.termsOfUse.reject{/lang}</button>
+				<button type="submit" class="button buttonPrimary" name="accept" value="{$revision->revisionID}">{lang}wcf.termsOfUse.accept{/lang}</button>
+				<button type="submit" class="button" name="reject" value="{$revision->revisionID}">{lang}wcf.termsOfUse.reject{/lang}</button>
 				{csrfToken}
 			</form>
 		</div>

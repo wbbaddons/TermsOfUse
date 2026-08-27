@@ -7,7 +7,7 @@
 	
 	<nav class="contentHeaderNavigation">
 		<ul>
-			<li><a href="{link controller='TermsOfUseRevisionList' application='wcf'}{/link}" class="button"><span class="icon icon16 fa-list"></span> <span>{lang}wcf.acp.termsOfUse.revision.list{/lang}</span></a></li>
+			<li><a href="{link controller='TermsOfUseRevisionList' application='wcf'}{/link}" class="button">{icon name='list'} <span>{lang}wcf.acp.termsOfUse.revision.list{/lang}</span></a></li>
 			{event name='contentHeaderNavigation'}
 		</ul>
 	</nav>
