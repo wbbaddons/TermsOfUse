@@ -47,13 +47,4 @@
 	<instructions type="update" fromversion="1.0.0 RC 3">
 		<instruction type="file" application="wcf">files_wcf.tar</instruction>
 	</instructions>
-
-	<instructions type="update" fromversion="1.0.0 RC 2">
-		<instruction type="file" application="wcf">files_wcf.tar</instruction>
-	</instructions>
-
-	<instructions type="update" fromversion="1.0.0 RC 1">
-		<instruction type="file" application="wcf">files_wcf.tar</instruction>
-		<instruction type="eventListener" />
-	</instructions>
 </package>
