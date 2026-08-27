@@ -21,6 +21,7 @@ namespace wcf\system\event\listener;
 
 use wcf\action\AbstractAction;
 use wcf\data\termsofuse\revision\TermsofuseRevision;
+use wcf\form\TermsOfUseForm;
 use wcf\page\AbstractPage;
 use wcf\system\exception\AJAXException;
 use wcf\system\request\LinkHandler;
