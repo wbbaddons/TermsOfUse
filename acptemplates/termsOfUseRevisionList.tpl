@@ -31,7 +31,7 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th class="columnID columnTriggerID{if $sortField == 'revisionID'} active {@$sortOrder}{/if}" colspan="2"><a href="{link controller='TermsOfUseRevisionList' application='wcf'}pageNo={@$pageNo}&sortField=triggerID&sortOrder={if $sortField == 'revisionID' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.global.objectID{/lang}</a></th>
+					<th class="columnID columnRevisionID{if $sortField == 'revisionID'} active {@$sortOrder}{/if}" colspan="2"><a href="{link controller='TermsOfUseRevisionList' application='wcf'}pageNo={@$pageNo}&sortField=revisionID&sortOrder={if $sortField == 'revisionID' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.global.objectID{/lang}</a></th>
 					<th class="columnCreatedAt{if $sortField == 'createdAt'} active {@$sortOrder}{/if}"><a href="{link controller='TermsOfUseRevisionList' application='wcf'}pageNo={@$pageNo}&sortField=createdAt&sortOrder={if $sortField == 'enabledAt' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.acp.termsOfUse.createdAt{/lang}</a></th>
 					<th class="columnEnabledAt{if $sortField == 'enabledAt'} active {@$sortOrder}{/if}"><a href="{link controller='TermsOfUseRevisionList' application='wcf'}pageNo={@$pageNo}&sortField=enabledAt&sortOrder={if $sortField == 'enabledAt' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.acp.termsOfUse.enabledAt{/lang}</a></th>
 
