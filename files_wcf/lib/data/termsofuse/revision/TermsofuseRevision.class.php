@@ -32,9 +32,9 @@ use wcf\system\WCF;
 final class TermsofuseRevision extends DatabaseObject
 {
     /**
-     * @var string[]
+     * @var array<int, array{contentID: int, revisionID: int, languageID: int, content: string, hasEmbeddedObjects: bool}>
      */
-    protected $content;
+    protected array $content;
 
     /**
      * @var HtmlOutputProcessor
@@ -43,15 +43,13 @@ final class TermsofuseRevision extends DatabaseObject
 
     /**
      * the revision that is currently active
-     * @var false|TermsofuseRevision
      */
-    protected static $activeRevision = false;
+    protected static self|null|false $activeRevision = false;
 
     /**
      * the latest draft
-     * @var false|TermsofuseRevision
      */
-    protected static $latestDraft = false;
+    protected static self|null|false $latestDraft = false;
 
     /**
      * Returns the revision most recently enabled, null
@@ -80,10 +78,8 @@ final class TermsofuseRevision extends DatabaseObject
 
     /**
      * Returns most recent draft newer than the active revision.
-     *
-     * @return \wcf\data\termsofuse\revision\TermsofuseRevision
      */
-    public static function getLatestDraft($skipCache = false)
+    public static function getLatestDraft(bool $skipCache = false): ?self
     {
         if (self::$latestDraft === false || $skipCache) {
             $sql = "SELECT      *
@@ -141,10 +137,8 @@ final class TermsofuseRevision extends DatabaseObject
 
     /**
      * Returns whether the given user has accepted this revision.
-     * 
-     * @return null|false|int
      */
-    public function hasAccepted(User $user)
+    public function hasAccepted(User $user): int|null|false
     {
         $sql = "SELECT  acceptedAt
                 FROM    wcf1_termsofuse_revision_to_user
@@ -163,9 +157,9 @@ final class TermsofuseRevision extends DatabaseObject
      * Returns the content for the given Language or null
      * if there is no version for the given language.
      */
-    public function getContent(Language $language, bool $raw = false): string
+    public function getContent(Language $language, bool $raw = false): ?string
     {
-        if ($this->content === null) {
+        if (!isset($this->content)) {
             $sql = "SELECT  *
                     FROM    wcf1_termsofuse_revision_content
                     WHERE   revisionID = ?";
