@@ -43,6 +43,6 @@ final class DisclaimerFormReadParametersTermsOfUseListener implements IParameter
 
         HeaderUtil::redirect(LinkHandler::getInstance()->getControllerLink(TermsOfUseForm::class));
 
-        exit;
+        exit();
     }
 }

@@ -64,7 +64,7 @@ final class ControllerTermsOfUseListener implements IParameterizedEventListener
         } else {
             HeaderUtil::redirect(LinkHandler::getInstance()->getControllerLink(TermsOfUseForm::class));
 
-            exit;
+            exit();
         }
     }
 }

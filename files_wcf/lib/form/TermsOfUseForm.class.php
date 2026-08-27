@@ -161,7 +161,7 @@ class TermsOfUseForm extends AbstractForm
                     WCF::getLanguage()->getDynamicVariable('wcf.termsOfUse.accept.success')
                 );
 
-                exit;
+                exit();
             } else {
                 if (WCF::getSession()->getVar('termsOfUseRegister')) {
                     WCF::getSession()->register('disclaimerAccepted', $this->accept);
@@ -171,7 +171,7 @@ class TermsOfUseForm extends AbstractForm
                     $this->saved();
                     HeaderUtil::redirect(LinkHandler::getInstance()->getControllerLink(RegisterForm::class));
 
-                    exit;
+                    exit();
                 }
             }
         } elseif ($this->reject !== null) {
@@ -189,12 +189,12 @@ class TermsOfUseForm extends AbstractForm
                     WCF::getLanguage()->getDynamicVariable('wcf.termsOfUse.reject.success')
                 );
 
-                exit;
+                exit();
             } else {
                 HeaderUtil::redirect(LinkHandler::getInstance()->getLink());
                 $this->saved();
 
-                exit;
+                exit();
             }
         } else {
             throw new \LogicException('Unreachable');
